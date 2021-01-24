@@ -1,0 +1,97 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// AutoRouteGenerator
+// **************************************************************************
+
+// ignore_for_file: public_member_api_docs
+
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+
+import '../../modules/auth/language_screen.dart';
+import '../../modules/auth/log_in_screen.dart';
+import '../../modules/auth/reset_password_screen.dart';
+import '../../modules/auth/sign_up_screen.dart';
+import '../../modules/chat/chat_screen.dart';
+import '../../modules/onboarding/onboarding_screen.dart';
+import '../../modules/settings/settings.dart';
+
+class Routes {
+  static const String onBoardingScreen = '/';
+  static const String languageScreen = '/language-screen';
+  static const String signUpScreen = '/sign-up-screen';
+  static const String logInScreen = '/log-in-screen';
+  static const String resetPasswordScreen = '/reset-password-screen';
+  static const String chatScreen = '/chat-screen';
+  static const String settingsScreen = '/settings-screen';
+  static const all = <String>{
+    onBoardingScreen,
+    languageScreen,
+    signUpScreen,
+    logInScreen,
+    resetPasswordScreen,
+    chatScreen,
+    settingsScreen,
+  };
+}
+
+class AppRouter extends RouterBase {
+  @override
+  List<RouteDef> get routes => _routes;
+  final _routes = <RouteDef>[
+    RouteDef(Routes.onBoardingScreen, page: OnBoardingScreen),
+    RouteDef(Routes.languageScreen, page: LanguageScreen),
+    RouteDef(Routes.signUpScreen, page: SignUpScreen),
+    RouteDef(Routes.logInScreen, page: LogInScreen),
+    RouteDef(Routes.resetPasswordScreen, page: ResetPasswordScreen),
+    RouteDef(Routes.chatScreen, page: ChatScreen),
+    RouteDef(Routes.settingsScreen, page: SettingsScreen),
+  ];
+  @override
+  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
+  final _pagesMap = <Type, AutoRouteFactory>{
+    OnBoardingScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => OnBoardingScreen(),
+        settings: data,
+      );
+    },
+    LanguageScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => LanguageScreen(),
+        settings: data,
+      );
+    },
+    SignUpScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SignUpScreen(),
+        settings: data,
+      );
+    },
+    LogInScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => LogInScreen(),
+        settings: data,
+      );
+    },
+    ResetPasswordScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ResetPasswordScreen(),
+        settings: data,
+      );
+    },
+    ChatScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChatScreen(),
+        settings: data,
+      );
+    },
+    SettingsScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SettingsScreen(),
+        settings: data,
+      );
+    },
+  };
+}
