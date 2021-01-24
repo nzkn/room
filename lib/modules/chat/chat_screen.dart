@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:room/core/widgets/design_input_field.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -8,6 +9,35 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  Text('AAA'),
+                ],
+              ),
+            ),
+            _buildChatWidget(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChatWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      height: 50.0,
+      color: Colors.grey.withOpacity(0.4),
+      child: Center(
+        child: Row(
+          children: [],
+        ),
+      ),
+    );
   }
 }

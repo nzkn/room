@@ -101,12 +101,16 @@ class _LogInScreenState extends State<LogInScreen> {
           Expanded(
             child: DesignButton(
               title: 'Log in',
-              onTap: () {},
+              onTap: _onLogInTap,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _onLogInTap() {
+    Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
   }
 
   Widget _buildCreateAccountWidget() {

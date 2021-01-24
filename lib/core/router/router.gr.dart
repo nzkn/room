@@ -8,6 +8,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:room/modules/main/main_screen.dart';
 
 import '../../modules/auth/language_screen.dart';
 import '../../modules/auth/log_in_screen.dart';
@@ -15,7 +16,7 @@ import '../../modules/auth/reset_password_screen.dart';
 import '../../modules/auth/sign_up_screen.dart';
 import '../../modules/chat/chat_screen.dart';
 import '../../modules/onboarding/onboarding_screen.dart';
-import '../../modules/settings/settings.dart';
+import '../../modules/settings/settings_screen.dart';
 
 class Routes {
   static const String onBoardingScreen = '/';
@@ -23,6 +24,7 @@ class Routes {
   static const String signUpScreen = '/sign-up-screen';
   static const String logInScreen = '/log-in-screen';
   static const String resetPasswordScreen = '/reset-password-screen';
+  static const String mainScreen = '/main-screen';
   static const String chatScreen = '/chat-screen';
   static const String settingsScreen = '/settings-screen';
   static const all = <String>{
@@ -31,6 +33,7 @@ class Routes {
     signUpScreen,
     logInScreen,
     resetPasswordScreen,
+    mainScreen,
     chatScreen,
     settingsScreen,
   };
@@ -45,6 +48,7 @@ class AppRouter extends RouterBase {
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.logInScreen, page: LogInScreen),
     RouteDef(Routes.resetPasswordScreen, page: ResetPasswordScreen),
+    RouteDef(Routes.mainScreen, page: MainScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.settingsScreen, page: SettingsScreen),
   ];
@@ -78,6 +82,12 @@ class AppRouter extends RouterBase {
     ResetPasswordScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ResetPasswordScreen(),
+        settings: data,
+      );
+    },
+    MainScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => MainScreen(),
         settings: data,
       );
     },

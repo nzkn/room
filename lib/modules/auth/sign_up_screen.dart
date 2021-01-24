@@ -74,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Expanded(
             child: DesignButton(
               title: 'Sign up',
-              onTap: () {},
+              onTap: _onSignUpTap,
             ),
           ),
         ],
@@ -82,9 +82,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  void _onSignUpTap() {
+    Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+  }
+
   Widget _buildLogInWidget() {
     return GestureDetector(
-      onTap: _onSignUpTap,
+      onTap: _onSignInTap,
       child: Text(
         'Already have an account?  Log in',
         style: TextStyle(
@@ -96,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSignUpTap() {
+  void _onSignInTap() {
     Navigator.pushNamedAndRemoveUntil(context, Routes.logInScreen, (route) => false);
   }
 }
