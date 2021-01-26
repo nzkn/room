@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/widgets/design_button.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/modules/onboarding/widgets/page_indicator_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -12,18 +13,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   static const List<OnboardingSlide> _slides = [
     OnboardingSlide(
-      title: 'Title 1',
-      text: 'Here will be some text',
+      titleKey: 'Title 1',
+      textKey: 'Here will be some text',
       image: '',
     ),
     OnboardingSlide(
-      title: 'Title 2',
-      text: 'Here will be some text',
+      titleKey: 'Title 2',
+      textKey: 'Here will be some text',
       image: '',
     ),
     OnboardingSlide(
-      title: 'Title 3',
-      text: 'Here will be some text',
+      titleKey: 'Title 3',
+      textKey: 'Here will be some text',
       image: '',
     ),
   ];
@@ -86,7 +87,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 43.0),
           child: Text(
-            slide.title,
+            slide.titleKey,
             style: TextStyle(
               fontSize: 34.0,
               fontWeight: FontWeight.w600,
@@ -98,7 +99,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 43.0),
           child:  Text(
-            slide.text,
+            slide.textKey,
             style: TextStyle(
               fontSize: 15.0,
               fontWeight: FontWeight.w600,
@@ -120,7 +121,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           GestureDetector(
             onTap: _onSkipTap,
             child: Text(
-              'Skip',
+              getLocalized(context, 'skip'),
               style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.black,
@@ -152,7 +153,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         children: [
           Expanded(
             child: DesignButton(
-              title: 'Next',
+              title: getLocalized(context, 'next'),
               onTap: _onNextTap,
             ),
           ),
@@ -173,9 +174,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 }
 
 class OnboardingSlide {
-  final String title;
-  final String text;
+  final String titleKey;
+  final String textKey;
   final String image;
 
-  const OnboardingSlide({this.title, this.text, this.image});
+  const OnboardingSlide({this.titleKey, this.textKey, this.image});
 }
