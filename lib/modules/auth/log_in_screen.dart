@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
@@ -17,21 +18,25 @@ class _LogInScreenState extends State<LogInScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20.0),
-            _buildResetPasswordWidget(),
-            Spacer(),
-            _buildTitleWidget(),
-            const SizedBox(height: 25.0),
-            _buildInputFieldsWidget(),
-            Spacer(),
-            _buildNextButtonWidget(),
-            const SizedBox(height: 15.0),
-            _buildCreateAccountWidget(),
-            const SizedBox(height: 20.0),
-          ],
+        child: Builder(
+          builder: (context) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20.0),
+                _buildResetPasswordWidget(),
+                Spacer(),
+                _buildTitleWidget(),
+                const SizedBox(height: 25.0),
+                _buildInputFieldsWidget(),
+                Spacer(),
+                _buildNextButtonWidget(context),
+                const SizedBox(height: 15.0),
+                _buildCreateAccountWidget(),
+                const SizedBox(height: 20.0),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -65,7 +70,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   Widget _buildTitleWidget() {
     return Text(
-      'Create new account',
+      'Log in',
       style: TextStyle(
         fontSize: 20.0,
         color: Colors.black87,
@@ -93,7 +98,7 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Widget _buildNextButtonWidget() {
+  Widget _buildNextButtonWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
@@ -101,7 +106,7 @@ class _LogInScreenState extends State<LogInScreen> {
           Expanded(
             child: DesignButton(
               title: 'Log in',
-              onTap: _onLogInTap,
+              onTap: () => _onLogInTap(context),
             ),
           ),
         ],
@@ -109,8 +114,18 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  void _onLogInTap() {
-    Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+  Future<void> _onLogInTap(BuildContext context) async {
+    final firebaseAuth = FirebaseAuthRepository();
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    final uid = await firebaseAuth.logInWithEmail(email, password);
+    if (uid == null) {
+      _showLogInErrorSnackBar(context);
+      print('err');
+    } else {
+      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+    }
   }
 
   Widget _buildCreateAccountWidget() {
@@ -129,5 +144,14 @@ class _LogInScreenState extends State<LogInScreen> {
 
   void _onSignUpClick() {
     Navigator.pushNamedAndRemoveUntil(context, Routes.signUpScreen, (route) => false);
+  }
+
+  void _showLogInErrorSnackBar(BuildContext context) {
+    Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text("hi"),
+          elevation: 4.0,
+        ),
+    );
   }
 }
