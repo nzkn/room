@@ -5,6 +5,7 @@ import 'package:room/modules/auth/reset_password_screen.dart';
 import 'package:room/modules/auth/sign_up_screen.dart';
 import 'package:room/modules/chat/chat_screen.dart';
 import 'package:room/modules/onboarding/onboarding_screen.dart';
+import 'package:room/modules/settings/language_screen.dart';
 import 'package:room/modules/settings/settings_screen.dart';
 
 @MaterialAutoRouter(
@@ -16,6 +17,7 @@ import 'package:room/modules/settings/settings_screen.dart';
     MaterialRoute(page: ResetPasswordScreen),
     MaterialRoute(page: ChatScreen),
     MaterialRoute(page: SettingsScreen),
+    MaterialRoute(page: ChangeLanguageScreen),
   ],
 )
 class $AppRouter {}

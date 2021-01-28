@@ -9,6 +9,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:room/modules/main/main_screen.dart';
+import 'package:room/modules/settings/language_screen.dart';
 
 import '../../modules/auth/language_screen.dart';
 import '../../modules/auth/log_in_screen.dart';
@@ -27,6 +28,7 @@ class Routes {
   static const String mainScreen = '/main-screen';
   static const String chatScreen = '/chat-screen';
   static const String settingsScreen = '/settings-screen';
+  static const String changeLanguageScreen = '/change-language-screen';
   static const all = <String>{
     onBoardingScreen,
     languageScreen,
@@ -36,6 +38,7 @@ class Routes {
     mainScreen,
     chatScreen,
     settingsScreen,
+    changeLanguageScreen,
   };
 }
 
@@ -51,6 +54,7 @@ class AppRouter extends RouterBase {
     RouteDef(Routes.mainScreen, page: MainScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.settingsScreen, page: SettingsScreen),
+    RouteDef(Routes.changeLanguageScreen, page: ChangeLanguageScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -100,6 +104,12 @@ class AppRouter extends RouterBase {
     SettingsScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SettingsScreen(),
+        settings: data,
+      );
+    },
+    ChangeLanguageScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChangeLanguageScreen(),
         settings: data,
       );
     },
