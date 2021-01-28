@@ -12,13 +12,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
-        children: [
-          _buildProfileInfo(),
-          const SizedBox(height: 20.0),
-          _buildLogOutButton(),
-        ],
+      body: StreamBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+              children: [
+                _buildProfileInfo(),
+                const SizedBox(height: 20.0),
+                _buildLogOutButton(),
+              ],
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
