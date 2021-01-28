@@ -1,5 +1,21 @@
 {
+  "skip": "Skip",
+  "onboarding_title_1": "Title 1",
+  "onboarding_text_1": "Body text 1",
+  "onboarding_title_2": "Title 2",
+  "onboarding_text_2": "Body text 2",
+  "onboarding_title_3": "Title 3",
+  "onboarding_text_3": "Body text 3",
+  "next": "Next",
+  "email": "Email",
+  "password": "Password",
+  "forgot_password": "Forgot password?",
+  "create_new_account": "Create new account",
+  "doesnt_have_account": "Doesn't have an account? Create one",
+  "log_in": "Log in",
+  "log_into_account": "Log into your account",
+  "sign_up": "Sign up",
   "english": "English",
   "ukrainian": "Ukrainian",
-  "continueStr": "Continue"
+  "continue_str": "Continue"
 }
