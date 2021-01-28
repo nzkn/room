@@ -40,4 +40,15 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
+  @override
+  Future<void> signOut() async {
+    try {
+      return await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }

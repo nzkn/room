@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:room/core/repositories/firebase_auth_repository.dart';
+import 'package:room/core/router/router.gr.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -59,21 +61,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Column(
       children: [
         Divider(color: Colors.black54),
-        Row(
-          children: [
-            Icon(Icons.logout, color: Colors.black54),
-            const SizedBox(width: 10.0),
-            Text(
-              'Log Out',
-              style: TextStyle(
-                color: Colors.black54,
-                fontWeight: FontWeight.w500,
+        InkWell(
+          onTap: () => _onLogOutTap(),
+          child: Row(
+            children: [
+              Icon(Icons.logout, color: Colors.black54),
+              const SizedBox(width: 10.0),
+              Text(
+                'Log Out',
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         Divider(color: Colors.black54),
       ],
     );
   }
+
+  void _onLogOutTap() async {
+    final _authRepository = FirebaseAuthRepository();
+    await _authRepository.signOut();
+    Navigator.pushReplacementNamed(context, Routes.logInScreen);
+  }
+
 }

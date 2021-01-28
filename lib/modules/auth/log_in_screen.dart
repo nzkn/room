@@ -92,6 +92,7 @@ class _LogInScreenState extends State<LogInScreen> {
           DesignInputField(
             hint: 'Password',
             controller: _passwordController,
+            obscure: true,
           ),
         ],
       ),
@@ -122,7 +123,6 @@ class _LogInScreenState extends State<LogInScreen> {
     final uid = await firebaseAuth.logInWithEmail(email, password);
     if (uid == null) {
       _showLogInErrorSnackBar(context);
-      print('err');
     } else {
       Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
     }
@@ -149,8 +149,10 @@ class _LogInScreenState extends State<LogInScreen> {
   void _showLogInErrorSnackBar(BuildContext context) {
     Scaffold.of(context).showSnackBar(
         SnackBar(
-          content: Text("hi"),
+          content: Text("Authentication error occurred. Check entered email and password."),
           elevation: 4.0,
+          margin: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
+          behavior: SnackBarBehavior.floating,
         ),
     );
   }

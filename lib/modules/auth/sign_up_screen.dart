@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
@@ -38,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildTitleWidget() {
     return Text(
-      'Log into your account',
+      'Create new account',
       style: TextStyle(
         fontSize: 20.0,
         color: Colors.black87,
@@ -60,6 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           DesignInputField(
             hint: 'Password',
             controller: _passwordController,
+            obscure: true,
           ),
         ],
       ),
@@ -82,8 +84,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSignUpTap() {
-    Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+  void _onSignUpTap() async {
+    final firebaseAuth = FirebaseAuthRepository();
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    final uid = await firebaseAuth.signUpWithEmail(email, password);
+    if (uid == null) {
+      _showLogInErrorSnackBar(context);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+    }
   }
 
   Widget _buildLogInWidget() {
@@ -103,4 +114,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void _onSignInTap() {
     Navigator.pushNamedAndRemoveUntil(context, Routes.logInScreen, (route) => false);
   }
+
+  void _showLogInErrorSnackBar(BuildContext context) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Authentication error occurred. Check entered email and password."),
+        elevation: 4.0,
+        margin: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
 }
