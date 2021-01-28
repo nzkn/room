@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/utils/ui_utils.dart';
+import 'package:room/resources/colors_res.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -11,13 +13,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorsRes.white,
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
         children: [
           _buildProfileInfo(),
           const SizedBox(height: 20.0),
+          UiUtils.buildDivider(),
+          _buildLanguageButton(),
+          UiUtils.buildDivider(),
           _buildLogOutButton(),
+          UiUtils.buildDivider(),
         ],
       ),
     );
@@ -58,28 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildLogOutButton() {
-    return Column(
-      children: [
-        Divider(color: Colors.black54),
-        InkWell(
-          onTap: () => _onLogOutTap(),
-          child: Row(
-            children: [
-              Icon(Icons.logout, color: Colors.black54),
-              const SizedBox(width: 10.0),
-              Text(
-                'Log Out',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Divider(color: Colors.black54),
-      ],
-    );
+    return _buildButton(_onLogOutTap, Icons.logout, 'Log Out');
   }
 
   void _onLogOutTap() async {
@@ -87,5 +72,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await _authRepository.signOut();
     Navigator.pushReplacementNamed(context, Routes.logInScreen);
   }
+
+  Widget _buildLanguageButton() {
+    return _buildButton(_onLanguageTap, Icons.language, 'Language');
+  }
+
+  void _onLanguageTap() {
+    Navigator.pushNamed(context, Routes.changeLanguageScreen);
+  }
+
+  Widget _buildButton(Function() onTap, IconData icon, String text) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.black54),
+            const SizedBox(width: 10.0),
+            Text(
+              text,
+              style: TextStyle(
+                color: Colors.black54,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 
 }
