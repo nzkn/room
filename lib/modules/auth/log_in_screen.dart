@@ -161,7 +161,7 @@ class _LogInScreenState extends State<LogInScreen> {
     if (uid == null) {
       _showLogInErrorSnackBar(context);
     } else {
-      Navigator.pushReplacementNamed(context, RouteNames.mainRoute);
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainRoute, (route) => false);
     }
   }
 

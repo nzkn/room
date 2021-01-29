@@ -24,7 +24,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String initialRoute = RouteNames.languageScreen;
+    String initialRoute = RouteNames.languageRoute;
 
     if (FirebaseAuth.instance.currentUser != null) {
       initialRoute = RouteNames.mainRoute;
@@ -67,10 +67,10 @@ class App extends StatelessWidget {
     Widget page;
 
     switch (settings.name)  {
-      case RouteNames.languageScreen:
+      case RouteNames.languageRoute:
         page = LanguageScreen();
         break;
-      case RouteNames.signUpMethodScreen:
+      case RouteNames.signUpMethodRoute:
         page = SignUpMethodScreen();
         break;
       case RouteNames.onboardingRoute:

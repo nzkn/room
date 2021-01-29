@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/utils/ui_utils.dart';
 import 'package:room/core/widgets/design_button.dart';
@@ -14,6 +15,8 @@ class SignUpMethodScreen extends StatefulWidget {
 }
 
 class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
+  static final FacebookLogin facebookSignIn = new FacebookLogin();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +87,19 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
     );
   }
 
-  void _onContinueWithFacebookTap() {
+  void _onContinueWithFacebookTap() async {
+    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+
+    if (result.status == FacebookLoginStatus.loggedIn) {
+      final accessToken = result.accessToken.token;
+      final credential = FacebookAuthProvider.credential(accessToken);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      _navigateToMainScreen();
+    } else if (result.status == FacebookLoginStatus.cancelledByUser) {
+      _showMessage(context, 'Login cancelled by the user.');
+    } else {
+      _showMessage(context, 'Authentication failed');
+    }
 
   }
 
@@ -102,17 +117,22 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
     try {
       GoogleSignInAccount account = await GoogleSignIn().signIn();
       GoogleSignInAuthentication authentication = await account.authentication;
-
       OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: authentication.accessToken,
-        idToken: authentication.idToken,
-      );
+        idToken: authentication.idToken);
       UserCredential credentials = await FirebaseAuth.instance.signInWithCredential(credential);
 
+      if (credentials?.user?.uid?.isNotEmpty ?? false) {
+        _navigateToMainScreen();
+      }
 
     } on FirebaseAuthException catch (err) {
       print(err);
     }
+  }
+
+  void _navigateToMainScreen() {
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainRoute, (route) => false);
   }
 
   Widget _buildEmailButton() {
@@ -126,5 +146,13 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
 
   void _onContinueWithEmailTap() {
     Navigator.pushNamed(context, RouteNames.logInRoute);
+  }
+
+  void _showMessage(BuildContext context, String text) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(text),
+      ),
+    );
   }
 }

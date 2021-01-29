@@ -29,7 +29,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   }
 
   void _onFlagTap() {
-    Navigator.pushNamed(context, RouteNames.signUpMethodScreen);
+    Navigator.pushNamed(context, RouteNames.signUpMethodRoute);
   }
 
   Widget _buildLogo() {
