@@ -90,7 +90,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   void _onTabTap(int index) {
     _tabController.animateTo(index, duration: Duration(milliseconds: 400));
-    setState(() {});
   }
 
   Future<void> _initPushNotifications() async {

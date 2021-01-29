@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:room/models/user.dart';
+import 'package:rxdart/rxdart.dart';
 
 class UserRepository {
 
@@ -30,9 +31,11 @@ class UserRepository {
   }
 
   Stream<User> getUser(String id) {
-    return FirebaseFirestore.instance.collection('users').doc(id).snapshots().map((doc) {
+    final user =  FirebaseFirestore.instance.collection('users').doc(id).snapshots().map((doc) {
       return User.fromJson(doc.data());
     });
+
+    return ValueConnectableStream(user).autoConnect();
   }
 
   String getUserId() {

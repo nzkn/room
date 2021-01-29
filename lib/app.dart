@@ -36,30 +36,24 @@ class App extends StatelessWidget {
 
     return LocaleBuilder(
       builder: (context, locale) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => UserBloc()),
-            BlocProvider(create: (_) => ChatBloc()),
-          ],
-          child: MaterialApp(
-            title: 'Room',
-            theme: ThemeData(
-              brightness: Brightness.dark,
-              fontFamily: 'Montserrat',
-            ),
-            locale: locale,
-            supportedLocales: [
-              Locale('en', 'US'),
-              Locale('uk', 'UA'),
-            ],
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            onGenerateRoute: onGenerateRoute,
-            initialRoute: initialRoute,
+        return MaterialApp(
+          title: 'Room',
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: 'Montserrat',
           ),
+          locale: locale,
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('uk', 'UA'),
+          ],
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          onGenerateRoute: onGenerateRoute,
+          initialRoute: initialRoute,
         );
       },
     );
@@ -88,7 +82,16 @@ class App extends StatelessWidget {
         page = ResetPasswordScreen();
         break;
       case RouteNames.mainRoute:
-        page = MainScreen();
+        page = MultiBlocProvider(
+          providers: [
+            BlocProvider<UserBloc>(
+              create: (_) => UserBloc(),
+            ),
+            BlocProvider<ChatBloc>(
+              create: (_) => ChatBloc(),
+            ),
+          ],
+            child: MainScreen());
         break;
       case RouteNames.languageSettingsRoute:
         page = LanguageSettingScreen();
