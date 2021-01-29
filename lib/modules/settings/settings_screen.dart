@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/utils/ui_utils.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/resources/colors_res.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildLogOutButton() {
-    return _buildButton(_onLogOutTap, Icons.logout, 'Log Out');
+    return _buildButton(_onLogOutTap, Icons.logout, 'main_sc_log_out');
   }
 
   void _onLogOutTap() async {
@@ -74,14 +75,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildLanguageButton() {
-    return _buildButton(_onLanguageTap, Icons.language, 'Language');
+    return _buildButton(_onLanguageTap, Icons.language, 'main_sc_language');
   }
 
   void _onLanguageTap() {
     Navigator.pushNamed(context, Routes.changeLanguageScreen);
   }
 
-  Widget _buildButton(Function() onTap, IconData icon, String text) {
+  Widget _buildButton(Function() onTap, IconData icon, String textKey) {
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -91,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Icon(icon, color: Colors.black54),
             const SizedBox(width: 10.0),
             Text(
-              text,
+              getLocalized(context, textKey),
               style: TextStyle(
                 color: Colors.black54,
                 fontWeight: FontWeight.w500,

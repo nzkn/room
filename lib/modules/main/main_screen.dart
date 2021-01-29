@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/modules/chat/chat_screen.dart';
 import 'package:room/modules/settings/settings_screen.dart';
 
@@ -29,12 +30,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildTabWidget(
-              text: 'Chat',
+              text: getLocalized(context, 'main_sc_chat'),
               index: 0,
             ),
             const SizedBox(width: 20.0),
             _buildTabWidget(
-              text: 'Profile',
+              text: getLocalized(context, 'main_sc_profile'),
               index: 1,
             ),
           ],
@@ -62,6 +63,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             text,
             style: TextStyle(
               color: tabColor,
+              fontSize: 18.0,
             ),
           ),
           Container(

@@ -1,9 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
+import 'package:room/localization/app_localizations.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   @override
@@ -49,7 +49,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
-        'Enter your email. Reset link will be sent to your email',
+        getLocalized(context, 'reset_pass_sc_enter_email'),
         style: TextStyle(
           fontSize: 20.0,
           color: Colors.black87,
@@ -64,7 +64,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: DesignInputField(
-        hint: 'Email',
+        hint: getLocalized(context, 'email'),
         controller: _emailController,
       ),
     );
@@ -77,7 +77,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         children: [
           Expanded(
             child: DesignButton(
-              title: 'Reset password',
+              title: getLocalized(context, 'reset_pass_sc_reset_password'),
               onTap: _onResetPasswordTap,
             ),
           ),

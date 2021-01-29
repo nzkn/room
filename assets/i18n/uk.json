@@ -21,5 +21,17 @@
 
   "signup_sc_create_account" : "Створіть акаунт",
   "signup_sc_sign_up" : "Зареєструватися",
-  "signup_sc_already_have_account" : "Маєте акаунт? Увійдіть тут"
+  "signup_sc_already_have_account" : "Маєте акаунт? Увійдіть тут",
+
+  "reset_pass_sc_enter_email" : "Введіть свій email. На ваш email буде відправлене посилання для відновлення паролю",
+  "reset_pass_sc_reset_password" : "Відновити пароль",
+
+  "main_sc_chat" : "Чат",
+  "main_sc_profile" : "Профіль",
+  "main_sc_language" : "Мова",
+  "main_sc_log_out" : "Вийти",
+
+  "language_set_sc_language" : "Мова",
+  "language_set_sc_ukrainian" : "Українська",
+  "language_set_sc_english" : "Англійська"
 }
