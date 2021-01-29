@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:room/core/router/route_names.dart';
@@ -6,9 +5,11 @@ import 'package:room/localization/app_localizations.dart';
 import 'package:room/localization/locale_builder.dart';
 import 'package:room/modules/auth/log_in_screen.dart';
 import 'package:room/modules/auth/reset_password_screen.dart';
+import 'package:room/modules/auth/sign_up_method_screen.dart';
 import 'package:room/modules/auth/sign_up_screen.dart';
 import 'package:room/modules/main/main_screen.dart';
 import 'package:room/modules/onboarding/onboarding_screen.dart';
+import 'package:room/modules/auth/language_screen.dart';
 
 import 'core/app_data.dart';
 import 'modules/settings/language_screen.dart';
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String initialRoute = RouteNames.logInRoute;
+    String initialRoute = RouteNames.languageScreen;
 
     if (appData.isFirstLaunch) {
       initialRoute = RouteNames.onboardingRoute;
@@ -56,6 +57,12 @@ class App extends StatelessWidget {
     Widget page;
 
     switch (settings.name)  {
+      case RouteNames.languageScreen:
+        page = LanguageScreen();
+        break;
+      case RouteNames.signUpMethodScreen:
+        page = SignUpMethodScreen();
+        break;
       case RouteNames.onboardingRoute:
         page = OnBoardingScreen();
         break;
@@ -72,7 +79,7 @@ class App extends StatelessWidget {
         page = MainScreen();
         break;
       case RouteNames.languageSettingsRoute:
-        page = LanguageScreen();
+        page = LanguageSettingScreen();
         break;
     }
 

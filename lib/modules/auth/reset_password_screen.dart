@@ -117,7 +117,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     await firebaseAuth.resetPasswordWithEmail(email);
     _showEmailWasSentSnackBar(context);
-    Navigator.pushReplacementNamed(context, Routes.logInScreen);
+    Navigator.pushReplacementNamed(context, RouteNames.logInRoute);
   }
 
   void _showEmailWasSentSnackBar(BuildContext context) {
