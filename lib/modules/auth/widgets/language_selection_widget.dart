@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/localization/locale_repository.dart';
 import 'package:room/resources/images.dart';
 import 'package:room/resources/colors_res.dart';
@@ -35,7 +36,7 @@ class _LanguageSelectionState extends State<LanguageSelectionWidget> {
                 ),
               ),
               const SizedBox(height: 12.0),
-              Text("Ukrainian",
+              Text(getLocalized(context, 'language_ukrainian'),
                 style: TextStyle(
                   color: ColorsRes.black,
                   fontSize: 14.0,
@@ -59,7 +60,7 @@ class _LanguageSelectionState extends State<LanguageSelectionWidget> {
                 ),
               ),
               const SizedBox(height: 12.0),
-              Text("English",
+              Text(getLocalized(context, 'language_english'),
                 style: TextStyle(
                   color: ColorsRes.black,
                   fontSize: 14.0,

@@ -15,6 +15,7 @@ import 'package:room/models/user.dart';
 import 'package:room/modules/auth/widgets/language_selection_widget.dart';
 import 'package:room/modules/main/blocs/user_bloc.dart';
 import 'package:room/modules/main/blocs/user_event.dart';
+import 'package:room/resources/colors_res.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -42,23 +43,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: BackButton(
+          color: ColorsRes.black,
+        ),
+      ),
       body: SafeArea(
         child: Builder(
           builder: (context) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20.0),
-                Spacer(),
-                _buildTitleWidget(),
-                const SizedBox(height: 25.0),
-                _buildInputFieldsWidget(),
-                Spacer(),
-                _buildNextButtonWidget(context),
-                const SizedBox(height: 15.0),
-                _buildLogInWidget(),
-                const SizedBox(height: 20.0),
-              ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10.0),
+                  _buildTitleWidget(),
+                  const SizedBox(height: 25.0),
+                  _buildInputFieldsWidget(),
+                  Spacer(),
+                  _buildNextButtonWidget(context),
+                  const SizedBox(height: 15.0),
+                  _buildLogInWidget(),
+                  const SizedBox(height: 20.0),
+                ],
+              ),
             );
           }
         ),
@@ -69,33 +79,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _buildTitleWidget() {
     return Text(
       getLocalized(context, 'signup_sc_create_account'),
-      style: TextStyle(
-        fontSize: 20.0,
-        color: Colors.black87,
+      style: const TextStyle(
+        color: ColorsRes.black,
+        fontSize: 26.0,
         fontWeight: FontWeight.w600,
       ),
     );
   }
 
   Widget _buildInputFieldsWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        children: [
-          DesignInputField(
-            hint: getLocalized(context, 'email'),
-            controller: _emailController,
-            onChanged: (email) => _onEmailUpdated(email),
-          ),
-          const SizedBox(height: 15.0),
-          DesignInputField(
-            hint: getLocalized(context, 'password'),
-            controller: _passwordController,
-            obscure: true,
-            onChanged: (pwd) => _onPasswordUpdated(pwd),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        DesignInputField(
+          hint: getLocalized(context, 'email'),
+          controller: _emailController,
+          onChanged: (email) => _onEmailUpdated(email),
+        ),
+        const SizedBox(height: 15.0),
+        DesignInputField(
+          hint: getLocalized(context, 'password'),
+          controller: _passwordController,
+          obscure: true,
+          onChanged: (pwd) => _onPasswordUpdated(pwd),
+        ),
+      ],
     );
   }
 
@@ -115,21 +122,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-
   Widget _buildNextButtonWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: DesignButton(
-              title: getLocalized(context, 'signup_sc_sign_up'),
-              onTap: () => _onSignUpTap(context),
-              enabled: _isContinueEnabled,
-            ),
+    return Row(
+      children: [
+        Expanded(
+          child: DesignButton(
+            title: getLocalized(context, 'signup_sc_sign_up'),
+            onTap: () => _onSignUpTap(context),
+            enabled: _isContinueEnabled,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -155,21 +158,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget _buildLogInWidget() {
-    return GestureDetector(
-      onTap: _onSignInTap,
-      child: Text(
-        getLocalized(context, 'signup_sc_already_have_account'),
-        style: TextStyle(
-          fontSize: 14.0,
-          color: Colors.black54,
-          fontWeight: FontWeight.w500,
+    return Center(
+      child: GestureDetector(
+        onTap: _onSignInTap,
+        child: Text(
+          getLocalized(context, 'signup_sc_already_have_account'),
+          style: TextStyle(
+            fontSize: 14.0,
+            color: Colors.black54,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
   }
 
   void _onSignInTap() {
-    Navigator.pushNamedAndRemoveUntil(context, RouteNames.logInRoute, (route) => false);
+    Navigator.pushReplacementNamed(context, RouteNames.logInRoute);
   }
 
   void _showLogInErrorSnackBar(BuildContext context) {

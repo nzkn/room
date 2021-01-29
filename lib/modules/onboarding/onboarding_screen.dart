@@ -153,7 +153,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         children: [
           Expanded(
             child: DesignButton(
-              title: getLocalized(context, 'onboarding_sc_next'),
+              title: isLast
+                ? getLocalized(context, 'onboarding_sc_continue')
+                : getLocalized(context, 'onboarding_sc_next'),
               onTap: _onNextTap,
             ),
           ),
@@ -168,9 +170,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           duration: Duration(milliseconds: 600), curve: Curves.easeIn);
     } else {
       Navigator.pushNamedAndRemoveUntil(
-          context, RouteNames.logInRoute, (route) => false);
+          context, RouteNames.languageScreen, (route) => false);
     }
   }
+
+  bool get isLast => _selectedPageIndex == 2;
+
 }
 
 class OnboardingSlide {

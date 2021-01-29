@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/utils/ui_utils.dart';
 import 'package:room/core/widgets/design_button.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/resources/colors_res.dart';
 import 'package:room/resources/images.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -27,6 +28,7 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         children: [
+          const SizedBox(height: 10.0),
           _buildTitle(),
           const SizedBox(height: 20.0),
           _buildFacebookButton(),
@@ -45,11 +47,11 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
     return Row(
       children: [
         Expanded(child: UiUtils.buildDivider()),
-        const Padding(
+        Padding(
           padding:  const EdgeInsets.symmetric(horizontal: 8.0),
-          child: const Text(
-            "OR",
-            style: TextStyle(
+          child: Text(
+            getLocalized(context, 'auth_method_or'),
+            style: const TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.w500,
               fontSize: 11.0,
@@ -63,8 +65,8 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
 
   Widget _buildTitle() {
     return Text(
-      "Sign up or Login",
-      style: TextStyle(
+      getLocalized(context, 'auth_method_sign_up_or_login'),
+      style: const TextStyle(
         color: ColorsRes.black,
         fontSize: 26.0,
         fontWeight: FontWeight.w600,
@@ -74,7 +76,7 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
 
   Widget _buildFacebookButton() {
     return DesignButton(
-      title: "Continue with Facebook",
+      title: getLocalized(context, 'auth_method_continue_with_facebook'),
       color: ColorsRes.blue,
       textColor: ColorsRes.white,
       onTap: _onContinueWithFacebookTap,
@@ -88,7 +90,7 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
 
   Widget _buildGoogleButton() {
     return DesignButton(
-      title: "Continue with Google",
+      title: getLocalized(context, 'auth_method_continue_with_google'),
       color: ColorsRes.grey,
       textColor: ColorsRes.darkBlue,
       onTap: _onContinueWithGoogleTap,
@@ -115,7 +117,7 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
 
   Widget _buildEmailButton() {
     return DesignButton(
-      title: "Continue with Email",
+      title: getLocalized(context, 'auth_method_continue_with_email'),
       color: ColorsRes.grey,
       textColor: ColorsRes.darkBlue,
       onTap: _onContinueWithEmailTap,

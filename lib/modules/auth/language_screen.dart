@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/resources/colors_res.dart';
 import 'package:room/modules/auth/widgets/language_selection_widget.dart';
 import 'package:room/core/router/route_names.dart';
@@ -12,17 +13,16 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsRes.primary2,
+      backgroundColor: ColorsRes.white,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(flex: 1, child: SizedBox()),
           _buildLogo(),
           const SizedBox(height: 15.0),
           _buildDescription(),
           const SizedBox(height: 22.0),
           LanguageSelectionWidget(_onFlagTap),
-          Expanded(flex: 2, child: SizedBox()),
         ],
       ),
     );
@@ -43,7 +43,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   }
 
   Widget _buildDescription() {
-    return Text("Choose your language",
+    return Text(getLocalized(context, 'language_choose_language'),
       style: TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w500,

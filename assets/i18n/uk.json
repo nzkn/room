@@ -7,6 +7,7 @@
   "onboarding_sc_title_3": "Заголовок 3",
   "onboarding_sc_text_3": "Текст 3",
   "onboarding_sc_next": "Наступний",
+  "onboarding_sc_continue": "Завершити",
 
   "email": "Email",
   "password": "Пароль",
@@ -14,17 +15,27 @@
   "ukrainian": "Українська",
   "continue_str": "Продовжити",
 
-  "login_sc_log_into_account" : "Ввійдіть у свій акаунт",
+  "language_choose_language": "Оберіть мову",
+  "language_ukrainian": "Українська",
+  "language_english": "Англійська",
+
+  "login_sc_log_into_account" : "Увійти",
   "login_sc_forgot_password" : "Забули пароль?",
   "login_sc_log_in" : "Ввійти",
-  "login_sc_no_account" : "Не маєте акаунт? Створіть його тут",
+  "login_sc_no_account" : "Не маєте аккаунту? Створіть його тут",
 
-  "signup_sc_create_account" : "Створіть акаунт",
+  "signup_sc_create_account" : "Створити аккаунт",
   "signup_sc_sign_up" : "Зареєструватися",
-  "signup_sc_already_have_account" : "Маєте акаунт? Увійдіть тут",
+  "signup_sc_already_have_account" : "Маєте аккаунт? Увійдіть тут",
 
-  "reset_pass_sc_enter_email" : "Введіть свій email. На ваш email буде відправлене посилання для відновлення паролю",
+  "reset_pass_sc_enter_email" : "Відновити пароль",
   "reset_pass_sc_reset_password" : "Відновити пароль",
+
+  "auth_method_sign_up_or_login": "Зареєструватись або Увійти",
+  "auth_method_continue_with_facebook": "Продовжити через Facebook",
+  "auth_method_continue_with_google": "Продовжити через Google",
+  "auth_method_continue_with_email": "Продовжити через Email",
+  "auth_method_or": "АБО",
 
   "main_sc_chat" : "Чат",
   "main_sc_profile" : "Профіль",

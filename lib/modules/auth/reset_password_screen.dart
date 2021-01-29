@@ -6,6 +6,7 @@ import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
 import 'package:room/localization/app_localizations.dart';
+import 'package:room/resources/colors_res.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   @override
@@ -27,22 +28,30 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: BackButton(
+          color: ColorsRes.black,
+        ),
+      ),
       body: SafeArea(
         child: Builder(
           builder: (context) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20.0),
-                _buildBackButtonWidget(),
-                Spacer(),
-                _buildTitleWidget(),
-                const SizedBox(height: 25.0),
-                _buildInputFieldWidget(),
-                Spacer(),
-                _buildResetPasswordButtonWidget(context),
-                const SizedBox(height: 20.0),
-              ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10.0),
+                  _buildTitleWidget(),
+                  const SizedBox(height: 25.0),
+                  _buildInputFieldWidget(),
+                  Spacer(),
+                  _buildResetPasswordButtonWidget(context),
+                  const SizedBox(height: 20.0),
+                ],
+              ),
             );
           },
         ),
@@ -50,38 +59,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  Widget _buildBackButtonWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        BackButton(color: Colors.black87),
-      ],
-    );
-  }
-
   Widget _buildTitleWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(
-        getLocalized(context, 'reset_pass_sc_enter_email'),
-        style: TextStyle(
-          fontSize: 20.0,
-          color: Colors.black87,
-          fontWeight: FontWeight.w600,
-        ),
-        textAlign: TextAlign.center,
+    return Text(
+      getLocalized(context, 'reset_pass_sc_enter_email'),
+      style: const TextStyle(
+        color: ColorsRes.black,
+        fontSize: 26.0,
+        fontWeight: FontWeight.w600,
       ),
     );
   }
 
   Widget _buildInputFieldWidget() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: DesignInputField(
-        hint: getLocalized(context, 'email'),
-        controller: _emailController,
-        onChanged: (email) => _validateEmail(email),
-      ),
+    return DesignInputField(
+      hint: getLocalized(context, 'email'),
+      controller: _emailController,
+      onChanged: (email) => _validateEmail(email),
     );
   }
 
@@ -95,19 +88,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   Widget _buildResetPasswordButtonWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: DesignButton(
-              title: getLocalized(context, 'reset_pass_sc_reset_password'),
-              onTap: () => _onResetPasswordTap(context),
-              enabled: _emailValidated,
-            ),
+    return Row(
+      children: [
+        Expanded(
+          child: DesignButton(
+            title: getLocalized(context, 'reset_pass_sc_reset_password'),
+            onTap: () => _onResetPasswordTap(context),
+            enabled: _emailValidated,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

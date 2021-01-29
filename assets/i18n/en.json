@@ -7,6 +7,7 @@
   "onboarding_sc_title_3": "Title 3",
   "onboarding_sc_text_3": "Body text 3",
   "onboarding_sc_next": "Next",
+  "onboarding_sc_continue": "Finish",
 
   "email": "Email",
   "password": "Password",
@@ -17,7 +18,11 @@
   "sign_up": "Sign up",
   "continue_str": "Continue",
 
-  "login_sc_log_into_account" : "Log into your account",
+  "language_choose_language": "Choose your language",
+  "language_ukrainian": "Ukrainian",
+  "language_english": "English",
+
+  "login_sc_log_into_account" : "Login",
   "login_sc_forgot_password" : "Forgot password?",
   "login_sc_log_in" : "Log in",
   "login_sc_no_account" : "Doesn't have an account? Create one",
@@ -26,8 +31,14 @@
   "signup_sc_sign_up" : "Sign up",
   "signup_sc_already_have_account" : "Already have an account?  Log in",
 
-  "reset_pass_sc_enter_email" : "Enter your email. Reset link will be sent to your email",
+  "reset_pass_sc_enter_email" : "Reset password",
   "reset_pass_sc_reset_password" : "Reset password",
+
+  "auth_method_sign_up_or_login": "Sign up or Login",
+  "auth_method_continue_with_facebook": "Continue with Facebook",
+  "auth_method_continue_with_google": "Continue with Google",
+  "auth_method_continue_with_email": "Continue with Email",
+  "auth_method_or": "OR",
 
   "main_sc_chat" : "Chat",
   "main_sc_profile" : "Profile",
