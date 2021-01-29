@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
@@ -13,24 +14,36 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController _emailController = TextEditingController();
 
+  bool _emailValidated;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailValidated = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20.0),
-            _buildBackButtonWidget(),
-            Spacer(),
-            _buildTitleWidget(),
-            const SizedBox(height: 25.0),
-            _buildInputFieldWidget(),
-            Spacer(),
-            _buildResetPasswordButtonWidget(),
-            const SizedBox(height: 20.0),
-          ],
+        child: Builder(
+          builder: (context) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20.0),
+                _buildBackButtonWidget(),
+                Spacer(),
+                _buildTitleWidget(),
+                const SizedBox(height: 25.0),
+                _buildInputFieldWidget(),
+                Spacer(),
+                _buildResetPasswordButtonWidget(context),
+                const SizedBox(height: 20.0),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -66,11 +79,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       child: DesignInputField(
         hint: 'Email',
         controller: _emailController,
+        onChanged: (email) => _validateEmail(email),
       ),
     );
   }
 
-  Widget _buildResetPasswordButtonWidget() {
+  void _validateEmail(String email) {
+    var _emailIsValid = EmailValidator.validate(email);
+    if (_emailIsValid != _emailValidated) {
+      setState(() {
+        _emailValidated = _emailIsValid;
+      });
+    }
+  }
+
+  Widget _buildResetPasswordButtonWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
@@ -78,7 +101,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           Expanded(
             child: DesignButton(
               title: 'Reset password',
-              onTap: _onResetPasswordTap,
+              onTap: () => _onResetPasswordTap(context),
+              enabled: _emailValidated,
             ),
           ),
         ],
@@ -86,11 +110,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
-  Future<void> _onResetPasswordTap() async {
+  Future<void> _onResetPasswordTap(BuildContext context) async {
     final firebaseAuth = FirebaseAuthRepository();
     final email = _emailController.text;
 
     await firebaseAuth.resetPasswordWithEmail(email);
+    _showEmailWasSentSnackBar(context);
     Navigator.pushReplacementNamed(context, Routes.logInScreen);
   }
+
+  void _showEmailWasSentSnackBar(BuildContext context) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Email with recovery link was successfully sent to you email!"),
+      ),
+    );
+  }
+
 }

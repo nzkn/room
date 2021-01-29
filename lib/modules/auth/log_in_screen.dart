@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
@@ -12,6 +13,18 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  bool _isEmailValidated;
+  bool _isPwdValidated;
+  bool _isContinueEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _isEmailValidated = false;
+    _isPwdValidated = false;
+    _isContinueEnabled = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,16 +100,34 @@ class _LogInScreenState extends State<LogInScreen> {
           DesignInputField(
             hint: 'Email',
             controller: _emailController,
+            onChanged: (email) => _validateEmail(email),
           ),
           const SizedBox(height: 15.0),
           DesignInputField(
             hint: 'Password',
             controller: _passwordController,
             obscure: true,
+            onChanged: (pwd) => _validatePwd(pwd),
           ),
         ],
       ),
     );
+  }
+
+  void _validateEmail(String email) {
+    _isEmailValidated = EmailValidator.validate(email);
+    _updateContinueEnabled();
+  }
+
+  void _validatePwd(String password) {
+    _isPwdValidated = password.length > 7;
+    _updateContinueEnabled();
+  }
+
+  void _updateContinueEnabled () {
+    setState(() {
+      _isContinueEnabled = _isEmailValidated && _isPwdValidated;
+    });
   }
 
   Widget _buildNextButtonWidget(BuildContext context) {
@@ -108,6 +139,7 @@ class _LogInScreenState extends State<LogInScreen> {
             child: DesignButton(
               title: 'Log in',
               onTap: () => _onLogInTap(context),
+              enabled: _isContinueEnabled,
             ),
           ),
         ],

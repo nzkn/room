@@ -93,20 +93,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onEmailUpdated(String email) {
     _isEmailValidated = EmailValidator.validate(_emailController.text);
-    _checkIfContinueEnabled();
+    _updateContinueEnabled();
   }
 
   void _onPasswordUpdated(String password) {
     _isPasswordValidated = password.length > 7;
-    _checkIfContinueEnabled();
+    _updateContinueEnabled();
   }
 
-  void _checkIfContinueEnabled() {
-    if (_isEmailValidated && _isPasswordValidated) {
-      setState(() {
-        _isContinueEnabled = true;
-      });
-    }
+  void _updateContinueEnabled() {
+    setState(() {
+      _isContinueEnabled = _isEmailValidated && _isPasswordValidated;
+    });
   }
 
   Widget _buildNextButtonWidget(BuildContext context) {

@@ -16,7 +16,9 @@ class DesignButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: enabled
+          ? onTap
+          : null,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
         decoration: BoxDecoration(
