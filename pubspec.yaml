@@ -24,6 +24,7 @@ dependencies:
   cloud_firestore: ^0.16.0
   auto_route: ^0.6.9
   shared_preferences: ^0.5.12+4
+  email_validator: ^1.0.6
   intl: ^0.16.1
   lottie: ^0.7.0+1
 

@@ -6,9 +6,9 @@ class User {
   const User(this.id, this.fullName, this.email);
 
   User.fromJson(Map<String, dynamic> m)
-      : id = m['id'],
-        fullName = m['fullName'],
-        email = m['email'];
+      : id = m['id'] ?? '',
+        fullName = m['fullName'] ?? '',
+        email = m['email'] ?? '';
 
   Map<String, dynamic> toJson() {
     return {
