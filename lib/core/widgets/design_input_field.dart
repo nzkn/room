@@ -4,9 +4,10 @@ class DesignInputField extends StatefulWidget {
   final String hint;
   final TextEditingController controller;
   final bool obscure;
+  final Function(String text) onChanged;
 
   const DesignInputField(
-      {@required this.hint, @required this.controller, this.obscure = false,});
+      {@required this.hint, @required this.controller, this.obscure = false, this.onChanged});
 
   @override
   _DesignInputFieldState createState() => _DesignInputFieldState();
@@ -23,6 +24,7 @@ class _DesignInputFieldState extends State<DesignInputField> {
         fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         enabled: true,
         hintText: widget.hint,
