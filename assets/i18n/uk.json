@@ -1,21 +1,25 @@
 {
-  "skip": "Пропустити",
-  "onboarding_title_1": "Заголовок 1",
-  "onboarding_text_1": "Текст 1",
-  "onboarding_title_2": "Заголовок 2",
-  "onboarding_text_2": "Текст 2",
-  "onboarding_title_3": "Заголовок 3",
-  "onboarding_text_3": "Текст 3",
-  "next": "Наступний",
+  "onboarding_sc_skip": "Пропустити",
+  "onboarding_sc_title_1": "Заголовок 1",
+  "onboarding_sc_text_1": "Текст 1",
+  "onboarding_sc_title_2": "Заголовок 2",
+  "onboarding_sc_text_2": "Текст 2",
+  "onboarding_sc_title_3": "Заголовок 3",
+  "onboarding_sc_text_3": "Текст 3",
+  "onboarding_sc_next": "Наступний",
+
   "email": "Email",
   "password": "Пароль",
-  "forgot_password": "Забули пароль?",
-  "create_new_account": "Створіть акаунт",
-  "doesnt_have_account": "Не маєте акаунт? Створіть його тут",
-  "log_in": "Ввійти",
-  "log_into_account": "Ввійдіть у свій акаунт",
-  "sign_up": "Зареєструватися",
   "english": "Англійська",
   "ukrainian": "Українська",
-  "continue_str": "Продовжити"
+  "continue_str": "Продовжити",
+
+  "login_sc_log_into_account" : "Ввійдіть у свій акаунт",
+  "login_sc_forgot_password" : "Забули пароль?",
+  "login_sc_log_in" : "Ввійти",
+  "login_sc_no_account" : "Не маєте акаунт? Створіть його тут",
+
+  "signup_sc_create_account" : "Створіть акаунт",
+  "signup_sc_sign_up" : "Зареєструватися",
+  "signup_sc_already_have_account" : "Маєте акаунт? Увійдіть тут"
 }

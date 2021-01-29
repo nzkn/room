@@ -3,6 +3,9 @@ import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
+import 'package:room/localization/app_localizations.dart';
+import 'package:room/localization/locale_repository.dart';
+import 'package:room/modules/auth/widgets/language_selection_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -26,8 +29,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             _buildTitleWidget(),
             const SizedBox(height: 25.0),
             _buildInputFieldsWidget(),
+            const SizedBox(height: 25.0),
+            LanguageSelectionWidget(),
             Spacer(),
-            _buildNextButtonWidget(),
+            _buildNextButtonWidget(context),
             const SizedBox(height: 15.0),
             _buildLogInWidget(),
             const SizedBox(height: 20.0),
@@ -39,7 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildTitleWidget() {
     return Text(
-      'Create new account',
+      getLocalized(context, 'signup_sc_create_account'),
       style: TextStyle(
         fontSize: 20.0,
         color: Colors.black87,
@@ -54,12 +59,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Column(
         children: [
           DesignInputField(
-            hint: 'Email',
+            hint: getLocalized(context, 'email'),
             controller: _emailController,
           ),
           const SizedBox(height: 15.0),
           DesignInputField(
-            hint: 'Password',
+            hint: getLocalized(context, 'password'),
             controller: _passwordController,
             obscure: true,
           ),
@@ -68,15 +73,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _buildNextButtonWidget() {
+  Widget _buildNextButtonWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         children: [
           Expanded(
             child: DesignButton(
-              title: 'Sign up',
-              onTap: _onSignUpTap,
+              title: getLocalized(context, 'signup_sc_sign_up'),
+              onTap: () => _onSignUpTap(context),
             ),
           ),
         ],
@@ -84,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSignUpTap() async {
+  void _onSignUpTap(BuildContext context) async {
     final firebaseAuth = FirebaseAuthRepository();
     final email = _emailController.text;
     final password = _passwordController.text;
@@ -101,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return GestureDetector(
       onTap: _onSignInTap,
       child: Text(
-        'Already have an account?  Log in',
+        getLocalized(context, 'signup_sc_already_have_account'),
         style: TextStyle(
           fontSize: 14.0,
           color: Colors.black54,
