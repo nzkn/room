@@ -48,6 +48,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     try {
       String id = repository.getUserId();
       Stream<User> user = repository.getUser(id);
+      print('UserLng : ${user.length}');
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');

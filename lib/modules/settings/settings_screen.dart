@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/utils/ui_utils.dart';
 import 'package:room/localization/app_localizations.dart';
+import 'package:room/models/user.dart';
+import 'package:room/modules/main/blocs/user_bloc.dart';
+import 'package:room/modules/main/blocs/user_state.dart';
 import 'package:room/resources/colors_res.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -15,22 +19,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsRes.white,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
-        children: [
-          _buildProfileInfo(),
-          const SizedBox(height: 20.0),
-          UiUtils.buildDivider(),
-          _buildLanguageButton(),
-          UiUtils.buildDivider(),
-          _buildLogOutButton(),
-          UiUtils.buildDivider(),
-        ],
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state is UserLoadedState) {
+            return StreamBuilder(
+              stream: state.user,
+              builder: (context, snapshot) {
+                if (!snapshot.hasError || snapshot.connectionState != ConnectionState.waiting) {
+                  final User user = snapshot.data;
+                  return ListView(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 30.0, horizontal: 20.0),
+                    children: [
+                      _buildProfileInfo(user),
+                      const SizedBox(height: 20.0),
+                      UiUtils.buildDivider(),
+                      _buildLanguageButton(),
+                      UiUtils.buildDivider(),
+                      _buildLogOutButton(),
+                      UiUtils.buildDivider(),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget _buildProfileInfo() {
+  Widget _buildProfileInfo(User user) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -44,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const SizedBox(height: 20.0),
         Text(
-          'Denis J',
+          user?.fullName ?? 'Full Name',
           style: TextStyle(
             fontSize: 20.0,
             color: Colors.black87,
@@ -53,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const SizedBox(height: 10.0),
         Text(
-          'email@gmail.com',
+          user?.email ?? 'email',
           style: TextStyle(
             fontSize: 16.0,
             color: Colors.black87,

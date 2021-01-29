@@ -9,6 +9,8 @@ import 'package:room/core/widgets/design_input_field.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/models/user.dart';
 import 'package:room/modules/auth/widgets/language_selection_widget.dart';
+import 'package:room/modules/main/blocs/user_bloc.dart';
+import 'package:room/modules/main/blocs/user_event.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
