@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
 import 'package:room/localization/app_localizations.dart';
@@ -91,6 +91,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     final email = _emailController.text;
 
     await firebaseAuth.resetPasswordWithEmail(email);
-    Navigator.pushReplacementNamed(context, Routes.logInScreen);
+    Navigator.pushReplacementNamed(context, RouteNames.logInRoute);
   }
 }

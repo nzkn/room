@@ -5,12 +5,12 @@ import 'package:room/localization/locale_builder.dart';
 import 'package:room/localization/locale_repository.dart';
 import 'package:room/resources/colors_res.dart';
 
-class ChangeLanguageScreen extends StatefulWidget {
+class LanguageScreen extends StatefulWidget {
   @override
-  _ChangeLanguageScreenState createState() => _ChangeLanguageScreenState();
+  _LanguageScreenState createState() => _LanguageScreenState();
 }
 
-class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
+class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/utils/ui_utils.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/resources/colors_res.dart';
@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _onLogOutTap() async {
     final _authRepository = FirebaseAuthRepository();
     await _authRepository.signOut();
-    Navigator.pushReplacementNamed(context, Routes.logInScreen);
+    Navigator.pushReplacementNamed(context, RouteNames.logInRoute);
   }
 
   Widget _buildLanguageButton() {
@@ -79,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _onLanguageTap() {
-    Navigator.pushNamed(context, Routes.changeLanguageScreen);
+    Navigator.pushNamed(context, RouteNames.languageSettingsRoute);
   }
 
   Widget _buildButton(Function() onTap, IconData icon, String textKey) {

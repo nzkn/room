@@ -11,6 +11,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(App());
+  AppData appData = await AppData.getInstance();
+  runApp(App(appData));
 }
 

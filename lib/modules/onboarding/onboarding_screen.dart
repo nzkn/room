@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/modules/onboarding/widgets/page_indicator_widget.dart';
@@ -136,7 +136,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void _onSkipTap() {
     Navigator.pushNamedAndRemoveUntil(
-        context, Routes.logInScreen, (route) => false);
+        context, RouteNames.logInRoute, (route) => false);
   }
 
   Widget _buildPageIndicatorWidget() {
@@ -168,7 +168,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           duration: Duration(milliseconds: 600), curve: Curves.easeIn);
     } else {
       Navigator.pushNamedAndRemoveUntil(
-          context, Routes.logInScreen, (route) => false);
+          context, RouteNames.logInRoute, (route) => false);
     }
   }
 }

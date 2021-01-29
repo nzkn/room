@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
 import 'package:room/localization/app_localizations.dart';
@@ -69,7 +69,7 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   void _onForgotPasswordTap() {
-    Navigator.pushNamed(context, Routes.resetPasswordScreen);
+    Navigator.pushNamed(context, RouteNames.resetPasswordRoute);
   }
 
   Widget _buildTitleWidget() {
@@ -128,7 +128,7 @@ class _LogInScreenState extends State<LogInScreen> {
     if (uid == null) {
       _showLogInErrorSnackBar(context);
     } else {
-      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainRoute, (route) => false);
     }
   }
 
@@ -147,7 +147,7 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   void _onSignUpClick() {
-    Navigator.pushNamedAndRemoveUntil(context, Routes.signUpScreen, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.signUpRoute, (route) => false);
   }
 
   void _showLogInErrorSnackBar(BuildContext context) {

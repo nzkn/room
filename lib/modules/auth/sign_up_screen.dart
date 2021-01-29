@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:room/core/repositories/database_repository.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
 import 'package:room/localization/app_localizations.dart';
-import 'package:room/localization/locale_repository.dart';
+import 'package:room/models/user.dart';
 import 'package:room/modules/auth/widgets/language_selection_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -95,10 +98,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final password = _passwordController.text;
 
     final uid = await firebaseAuth.signUpWithEmail(email, password);
+
     if (uid == null) {
       _showLogInErrorSnackBar(context);
     } else {
-      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+      UserRepository repository = UserRepository();
+      auth.User user = auth.FirebaseAuth.instance.currentUser;
+      DocumentReference doc = await repository.createUser(
+        User(user.uid, user.displayName, user.email),
+      );
+
+      if (doc != null) {
+        Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainRoute, (route) => false);
+      }
     }
   }
 
@@ -117,7 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onSignInTap() {
-    Navigator.pushNamedAndRemoveUntil(context, Routes.logInScreen, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.logInRoute, (route) => false);
   }
 
   void _showLogInErrorSnackBar(BuildContext context) {
