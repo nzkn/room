@@ -136,7 +136,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void _onSkipTap() {
     Navigator.pushNamedAndRemoveUntil(
-        context, RouteNames.logInRoute, (route) => false);
+        context, RouteNames.languageRoute, (route) => false);
   }
 
   Widget _buildPageIndicatorWidget() {
@@ -170,7 +170,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           duration: Duration(milliseconds: 600), curve: Curves.easeIn);
     } else {
       Navigator.pushNamedAndRemoveUntil(
-          context, RouteNames.languageScreen, (route) => false);
+          context, RouteNames.languageRoute, (route) => false);
     }
   }
 
