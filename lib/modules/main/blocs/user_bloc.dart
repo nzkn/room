@@ -27,6 +27,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       DocumentReference reference = await repository.createUser(newUser);
       String uid = reference.id;
       Stream<User> user = repository.getUser(uid);
+      // User user = await repository.getUser(uid);
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');
@@ -38,6 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       await repository.updateUser(updatedUser);
       String id = updatedUser.id;
       Stream<User> user = repository.getUser(id);
+      // User user = await repository.getUser(id);
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');
@@ -47,8 +49,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> _mapGetUserEventToState() async* {
     try {
       String id = repository.getUserId();
+      print('User id ${id}');
       Stream<User> user = repository.getUser(id);
-      print('UserLng : ${user.length}');
+      // User user = await repository.getUser(id);
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');

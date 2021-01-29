@@ -4,6 +4,7 @@ abstract class UserState {}
 
 class UserLoadedState extends UserState {
   final Stream<User> user;
+  // final User user;
 
   UserLoadedState(this.user);
 }

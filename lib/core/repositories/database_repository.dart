@@ -6,12 +6,13 @@ class UserRepository {
 
   final usersCollection = FirebaseFirestore.instance.collection('users');
 
-  Future<DocumentReference> createUser(User user) {
-    return FirebaseFirestore.instance.collection('users').add(user.toJson());
+  Future<DocumentReference> createUser(User user) async {
+    await usersCollection.doc(user.id).set(user.toJson());
+    return usersCollection.doc(user.id);
   }
 
   Future<void> updateUser(User user) {
-    return FirebaseFirestore.instance.collection('users').doc(user.id).update(user.toJson());
+    return usersCollection.doc(user.id).update(user.toJson());
   }
 
   Stream<User> getUser(String id) {

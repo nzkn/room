@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
@@ -22,10 +23,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state is UserLoadedState) {
+            // return ListView(
+            //   padding: const EdgeInsets.symmetric(
+            //       vertical: 30.0, horizontal: 20.0),
+            //   children: [
+            //     _buildProfileInfo(state.user),
+            //     const SizedBox(height: 20.0),
+            //     UiUtils.buildDivider(),
+            //     _buildLanguageButton(),
+            //     UiUtils.buildDivider(),
+            //     _buildLogOutButton(),
+            //     UiUtils.buildDivider(),
+            //   ],
+            // );
             return StreamBuilder(
               stream: state.user,
               builder: (context, snapshot) {
-                if (!snapshot.hasError || snapshot.connectionState != ConnectionState.waiting) {
+                if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
                   final User user = snapshot.data;
                   return ListView(
                     padding: const EdgeInsets.symmetric(
@@ -39,10 +57,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       _buildLogOutButton(),
                       UiUtils.buildDivider(),
                     ],
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
                   );
                 }
               },
@@ -71,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const SizedBox(height: 20.0),
         Text(
-          user?.fullName ?? 'Full Name',
+          (user?.fullName?.isNotEmpty ?? false) ? user?.fullName : 'Full Name',
           style: TextStyle(
             fontSize: 20.0,
             color: Colors.black87,

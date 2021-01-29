@@ -137,9 +137,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final firebaseAuth = FirebaseAuthRepository();
     final email = _emailController.text;
     final password = _passwordController.text;
-    final id = await firebaseAuth.signUpWithEmail(email, password);
-
-
     final uid = await firebaseAuth.signUpWithEmail(email, password);
 
     if (uid == null) {

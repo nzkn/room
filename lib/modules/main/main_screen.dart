@@ -20,8 +20,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     context.read<UserBloc>().add(GetUserEvent());
-    _tabController = TabController(length: 2, vsync: this);
     _initPushNotifications();
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {});
     });
