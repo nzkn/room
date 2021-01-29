@@ -39,13 +39,12 @@ class _LogInScreenState extends State<LogInScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20.0),
-                _buildResetPasswordWidget(),
+                _buildResetPasswordWidget(context),
                 Spacer(),
                 _buildTitleWidget(),
                 const SizedBox(height: 25.0),
                 _buildInputFieldsWidget(),
                 const SizedBox(height: 25.0),
-                LanguageSelectionWidget(),
                 Spacer(),
                 _buildNextButtonWidget(context),
                 const SizedBox(height: 15.0),
@@ -59,7 +58,7 @@ class _LogInScreenState extends State<LogInScreen> {
     );
   }
 
-  Widget _buildResetPasswordWidget() {
+  Widget _buildResetPasswordWidget(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
