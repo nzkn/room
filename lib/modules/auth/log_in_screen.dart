@@ -1,9 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
+import 'package:room/localization/app_localizations.dart';
+import 'package:room/modules/auth/widgets/language_selection_widget.dart';
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -42,6 +44,8 @@ class _LogInScreenState extends State<LogInScreen> {
                 _buildTitleWidget(),
                 const SizedBox(height: 25.0),
                 _buildInputFieldsWidget(),
+                const SizedBox(height: 25.0),
+                LanguageSelectionWidget(),
                 Spacer(),
                 _buildNextButtonWidget(context),
                 const SizedBox(height: 15.0),
@@ -64,7 +68,7 @@ class _LogInScreenState extends State<LogInScreen> {
           GestureDetector(
             onTap: _onForgotPasswordTap,
             child: Text(
-              'Forgot password?',
+              getLocalized(context, 'login_sc_forgot_password'),
               style: TextStyle(
                 fontSize: 14.0,
                 color: Colors.black54,
@@ -78,12 +82,12 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   void _onForgotPasswordTap() {
-    Navigator.pushNamed(context, Routes.resetPasswordScreen);
+    Navigator.pushNamed(context, RouteNames.resetPasswordRoute);
   }
 
   Widget _buildTitleWidget() {
     return Text(
-      'Log in',
+      getLocalized(context, 'login_sc_log_into_account'),
       style: TextStyle(
         fontSize: 20.0,
         color: Colors.black87,
@@ -98,13 +102,13 @@ class _LogInScreenState extends State<LogInScreen> {
       child: Column(
         children: [
           DesignInputField(
-            hint: 'Email',
+            hint: getLocalized(context, 'email'),
             controller: _emailController,
             onChanged: (email) => _validateEmail(email),
           ),
           const SizedBox(height: 15.0),
           DesignInputField(
-            hint: 'Password',
+            hint: getLocalized(context, 'password'),
             controller: _passwordController,
             obscure: true,
             onChanged: (pwd) => _validatePwd(pwd),
@@ -137,7 +141,7 @@ class _LogInScreenState extends State<LogInScreen> {
         children: [
           Expanded(
             child: DesignButton(
-              title: 'Log in',
+              title: getLocalized(context, 'login_sc_log_in'),
               onTap: () => _onLogInTap(context),
               enabled: _isContinueEnabled,
             ),
@@ -156,7 +160,7 @@ class _LogInScreenState extends State<LogInScreen> {
     if (uid == null) {
       _showLogInErrorSnackBar(context);
     } else {
-      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainRoute, (route) => false);
     }
   }
 
@@ -164,7 +168,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return GestureDetector(
       onTap: _onSignUpClick,
       child: Text(
-        'Doesn\'t have an account?  Create one',
+        getLocalized(context, 'login_sc_no_account'),
         style: TextStyle(
           fontSize: 14.0,
           color: Colors.black54,
@@ -175,7 +179,7 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   void _onSignUpClick() {
-    Navigator.pushNamedAndRemoveUntil(context, Routes.signUpScreen, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.signUpRoute, (route) => false);
   }
 
   void _showLogInErrorSnackBar(BuildContext context) {

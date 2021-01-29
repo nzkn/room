@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/modules/onboarding/widgets/page_indicator_widget.dart';
@@ -13,18 +13,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   static const List<OnboardingSlide> _slides = [
     OnboardingSlide(
-      titleKey: 'Title 1',
-      textKey: 'Here will be some text',
+      titleKey: 'onboarding_sc_title_1',
+      textKey: 'onboarding_sc_text_1',
       image: '',
     ),
     OnboardingSlide(
-      titleKey: 'Title 2',
-      textKey: 'Here will be some text',
+      titleKey: 'onboarding_sc_title_2',
+      textKey: 'onboarding_sc_text_2',
       image: '',
     ),
     OnboardingSlide(
-      titleKey: 'Title 3',
-      textKey: 'Here will be some text',
+      titleKey: 'onboarding_sc_title_3',
+      textKey: 'onboarding_sc_text_3',
       image: '',
     ),
   ];
@@ -87,9 +87,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 43.0),
           child: Text(
-            slide.titleKey,
+            getLocalized(context, slide.titleKey),
             style: TextStyle(
-              fontSize: 34.0,
+              fontSize: 24.0,
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
@@ -99,7 +99,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 43.0),
           child:  Text(
-            slide.textKey,
+            getLocalized(context, slide.textKey),
             style: TextStyle(
               fontSize: 15.0,
               fontWeight: FontWeight.w600,
@@ -121,9 +121,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           GestureDetector(
             onTap: _onSkipTap,
             child: Text(
-              getLocalized(context, 'skip'),
+              getLocalized(context, 'onboarding_sc_skip'),
               style: TextStyle(
-                fontSize: 16.0,
+                fontSize: 14.0,
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),
@@ -136,7 +136,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void _onSkipTap() {
     Navigator.pushNamedAndRemoveUntil(
-        context, Routes.logInScreen, (route) => false);
+        context, RouteNames.logInRoute, (route) => false);
   }
 
   Widget _buildPageIndicatorWidget() {
@@ -153,7 +153,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         children: [
           Expanded(
             child: DesignButton(
-              title: getLocalized(context, 'next'),
+              title: getLocalized(context, 'onboarding_sc_next'),
               onTap: _onNextTap,
             ),
           ),
@@ -168,7 +168,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           duration: Duration(milliseconds: 600), curve: Curves.easeIn);
     } else {
       Navigator.pushNamedAndRemoveUntil(
-          context, Routes.logInScreen, (route) => false);
+          context, RouteNames.logInRoute, (route) => false);
     }
   }
 }

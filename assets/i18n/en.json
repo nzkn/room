@@ -1,21 +1,40 @@
 {
-  "skip": "Skip",
-  "onboarding_title_1": "Title 1",
-  "onboarding_text_1": "Body text 1",
-  "onboarding_title_2": "Title 2",
-  "onboarding_text_2": "Body text 2",
-  "onboarding_title_3": "Title 3",
-  "onboarding_text_3": "Body text 3",
-  "next": "Next",
+  "onboarding_sc_skip": "Skip",
+  "onboarding_sc_title_1": "Title 1",
+  "onboarding_sc_text_1": "Body text 1",
+  "onboarding_sc_title_2": "Title 2",
+  "onboarding_sc_text_2": "Body text 2",
+  "onboarding_sc_title_3": "Title 3",
+  "onboarding_sc_text_3": "Body text 3",
+  "onboarding_sc_next": "Next",
+
   "email": "Email",
   "password": "Password",
   "forgot_password": "Forgot password?",
-  "create_new_account": "Create new account",
   "doesnt_have_account": "Doesn't have an account? Create one",
   "log_in": "Log in",
   "log_into_account": "Log into your account",
   "sign_up": "Sign up",
-  "english": "English",
-  "ukrainian": "Ukrainian",
-  "continue_str": "Continue"
+  "continue_str": "Continue",
+
+  "login_sc_log_into_account" : "Log into your account",
+  "login_sc_forgot_password" : "Forgot password?",
+  "login_sc_log_in" : "Log in",
+  "login_sc_no_account" : "Doesn't have an account? Create one",
+
+  "signup_sc_create_account" : "Create new account",
+  "signup_sc_sign_up" : "Sign up",
+  "signup_sc_already_have_account" : "Already have an account?  Log in",
+
+  "reset_pass_sc_enter_email" : "Enter your email. Reset link will be sent to your email",
+  "reset_pass_sc_reset_password" : "Reset password",
+
+  "main_sc_chat" : "Chat",
+  "main_sc_profile" : "Profile",
+  "main_sc_language" : "Language",
+  "main_sc_log_out" : "Log Out",
+
+  "language_set_sc_language" : "Language",
+  "language_set_sc_ukrainian" : "Ukrainian",
+  "language_set_sc_english" : "English"
 }

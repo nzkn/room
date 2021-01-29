@@ -1,12 +1,18 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:room/core/repositories/database_repository.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
-import 'package:room/core/router/router.gr.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
 import 'package:room/models/user.dart';
 import 'package:room/modules/main/blocs/user_bloc.dart';
 import 'package:room/modules/main/blocs/user_event.dart';
+import 'package:room/localization/app_localizations.dart';
+import 'package:room/models/user.dart';
+import 'package:room/modules/auth/widgets/language_selection_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -60,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _buildTitleWidget() {
     return Text(
-      'Create new account',
+      getLocalized(context, 'signup_sc_create_account'),
       style: TextStyle(
         fontSize: 20.0,
         color: Colors.black87,
@@ -75,13 +81,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Column(
         children: [
           DesignInputField(
-            hint: 'Email',
+            hint: getLocalized(context, 'email'),
             controller: _emailController,
             onChanged: (email) => _onEmailUpdated(email),
           ),
           const SizedBox(height: 15.0),
           DesignInputField(
-            hint: 'Password',
+            hint: getLocalized(context, 'password'),
             controller: _passwordController,
             obscure: true,
             onChanged: (pwd) => _onPasswordUpdated(pwd),
@@ -107,6 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
+
   Widget _buildNextButtonWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -114,7 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         children: [
           Expanded(
             child: DesignButton(
-              title: 'Sign up',
+              title: getLocalized(context, 'signup_sc_sign_up'),
               onTap: () => _onSignUpTap(context),
               enabled: _isContinueEnabled,
             ),
@@ -130,12 +137,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final password = _passwordController.text;
     final id = await firebaseAuth.signUpWithEmail(email, password);
 
-    if (id == null) {
+
+    final uid = await firebaseAuth.signUpWithEmail(email, password);
+
+    if (uid == null) {
       _showLogInErrorSnackBar(context);
     } else {
-      final user = User.fromJson({'id': id});
-      UserBloc().add(CreateUserEvent(user));
-      Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
+      UserRepository repository = UserRepository();
+      auth.User user = auth.FirebaseAuth.instance.currentUser;
+      DocumentReference doc = await repository.createUser(
+        User(user.uid, user.displayName, user.email),
+      );
+
+      if (doc != null) {
+        Navigator.pushNamedAndRemoveUntil(context, RouteNames.mainRoute, (route) => false);
+      }
     }
   }
 
@@ -143,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return GestureDetector(
       onTap: _onSignInTap,
       child: Text(
-        'Already have an account?  Log in',
+        getLocalized(context, 'signup_sc_already_have_account'),
         style: TextStyle(
           fontSize: 14.0,
           color: Colors.black54,
@@ -154,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onSignInTap() {
-    Navigator.pushNamedAndRemoveUntil(context, Routes.logInScreen, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.logInRoute, (route) => false);
   }
 
   void _showLogInErrorSnackBar(BuildContext context) {
