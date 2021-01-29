@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/utils/ui_utils.dart';
@@ -73,14 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          width: 100.0,
-          height: 100.0,
-          decoration: const BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.all(Radius.circular(50.0))
-          ),
-        ),
+        _buildProfileImageWidget(),
         const SizedBox(height: 20.0),
         Container(
           height: 40.0,
@@ -97,6 +93,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildProfileImageWidget() {
+    File _image;
+    final picker = ImagePicker();
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () async {
+        final pickedFile = await picker.getImage(source: ImageSource.camera);
+        setState(() {
+          if (pickedFile != null) {
+            _image = File(pickedFile.path);
+          } else {
+            print('No image selected.');
+          }
+        });
+      },
+      child: Container(
+        width: 100.0,
+        height: 100.0,
+        decoration: const BoxDecoration(
+          color: Colors.grey,
+          borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+        ),
+      ),
     );
   }
 
