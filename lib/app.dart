@@ -9,6 +9,7 @@ import 'package:room/modules/auth/log_in_screen.dart';
 import 'package:room/modules/auth/reset_password_screen.dart';
 import 'package:room/modules/auth/sign_up_method_screen.dart';
 import 'package:room/modules/auth/sign_up_screen.dart';
+import 'package:room/modules/main/blocs/chat_bloc.dart';
 import 'package:room/modules/main/blocs/user_bloc.dart';
 import 'package:room/modules/main/main_screen.dart';
 import 'package:room/modules/onboarding/onboarding_screen.dart';
@@ -38,6 +39,7 @@ class App extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(create: (_) => UserBloc()),
+            BlocProvider(create: (_) => ChatBloc()),
           ],
           child: MaterialApp(
             title: 'Room',

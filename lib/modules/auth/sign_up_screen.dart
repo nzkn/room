@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:room/core/repositories/database_repository.dart';
+import 'package:room/core/repositories/user_repository.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';

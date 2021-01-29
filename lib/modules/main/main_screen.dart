@@ -3,6 +3,8 @@ import 'package:room/core/locator/locator.dart';
 import 'package:room/core/services/push_notification_service.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/modules/chat/chat_screen.dart';
+import 'package:room/modules/main/blocs/chat_bloc.dart';
+import 'package:room/modules/main/blocs/chat_event.dart';
 import 'package:room/modules/main/blocs/user_event.dart';
 import 'package:room/modules/settings/settings_screen.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     context.read<UserBloc>().add(GetUserEvent());
+    context.read<ChatBloc>().add(GetChatMessagesEvent());
     _initPushNotifications();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {

@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:room/core/repositories/database_repository.dart';
+import 'package:room/core/repositories/user_repository.dart';
 import 'package:room/models/user.dart';
 import 'package:room/modules/main/blocs/user_event.dart';
 import 'package:room/modules/main/blocs/user_state.dart';

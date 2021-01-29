@@ -15,14 +15,16 @@ class UserRepository {
   }
 
   Future<void> updateUserName(String name) {
-    return usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid).update({'fullName' : name});
+    return usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid)
+        .update({'fullName': name});
   }
 
   Future<void> updateUserAvatar(String id, File image) async {
     Reference reference = FirebaseStorage.instance.ref(id).child(id);
     reference.putFile(image).then((snapshot) async {
       snapshot.ref.getDownloadURL().then((value) {
-        usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid).update({'image' : value});
+        usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid)
+            .update({'image': value});
       });
     });
   }
