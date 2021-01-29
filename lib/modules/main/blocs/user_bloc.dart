@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room/core/repositories/database_repository.dart';
@@ -15,8 +16,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is CreateUserEvent) {
       yield* _mapCreateUserEventToState(event.user);
-    } else if (event is UpdateUserEvent) {
-      yield* _mapUpdateUserEventToState(event.user);
+    } else if (event is UpdateUserName) {
+      yield* _mapUpdateUserEventToState(event.name);
     } else if (event is GetUserEvent) {
       yield* _mapGetUserEventToState();
     }
@@ -27,19 +28,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       DocumentReference reference = await repository.createUser(newUser);
       String uid = reference.id;
       Stream<User> user = repository.getUser(uid);
-      // User user = await repository.getUser(uid);
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');
     }
   }
 
-  Stream<UserState> _mapUpdateUserEventToState(User updatedUser) async* {
+  Stream<UserState> _mapUpdateUserEventToState(String name) async* {
     try {
-      await repository.updateUser(updatedUser);
-      String id = updatedUser.id;
-      Stream<User> user = repository.getUser(id);
-      // User user = await repository.getUser(id);
+      yield UserLoadingState();
+      await repository.updateUserName(name);
+      String uid = auth.FirebaseAuth.instance.currentUser.uid;
+      Stream<User> user = repository.getUser(uid);
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');
@@ -49,9 +49,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> _mapGetUserEventToState() async* {
     try {
       String id = repository.getUserId();
-      print('User id ${id}');
       Stream<User> user = repository.getUser(id);
-      // User user = await repository.getUser(id);
       yield UserLoadedState(user);
     } on PlatformException {
       yield UserErrorState('Error in UserBloc!');

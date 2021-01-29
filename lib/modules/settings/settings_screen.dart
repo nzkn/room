@@ -7,6 +7,7 @@ import 'package:room/core/utils/ui_utils.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/models/user.dart';
 import 'package:room/modules/main/blocs/user_bloc.dart';
+import 'package:room/modules/main/blocs/user_event.dart';
 import 'package:room/modules/main/blocs/user_state.dart';
 import 'package:room/resources/colors_res.dart';
 
@@ -16,6 +17,16 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  TextEditingController _controller;
+  bool _isEditingName;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    _isEditingName = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,19 +34,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state is UserLoadedState) {
-            // return ListView(
-            //   padding: const EdgeInsets.symmetric(
-            //       vertical: 30.0, horizontal: 20.0),
-            //   children: [
-            //     _buildProfileInfo(state.user),
-            //     const SizedBox(height: 20.0),
-            //     UiUtils.buildDivider(),
-            //     _buildLanguageButton(),
-            //     UiUtils.buildDivider(),
-            //     _buildLogOutButton(),
-            //     UiUtils.buildDivider(),
-            //   ],
-            // );
             return StreamBuilder(
               stream: state.user,
               builder: (context, snapshot) {
@@ -84,13 +82,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         const SizedBox(height: 20.0),
-        Text(
-          (user?.fullName?.isNotEmpty ?? false) ? user?.fullName : 'Full Name',
-          style: TextStyle(
-            fontSize: 20.0,
-            color: Colors.black87,
-            fontWeight: FontWeight.w500,
-          ),
+        Container(
+          height: 40.0,
+          width: MediaQuery.of(context).size.width / 2.5,
+          child: _buildUserNicknameWidget(user.fullName),
         ),
         const SizedBox(height: 10.0),
         Text(
@@ -103,6 +98,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ],
     );
+  }
+
+  Widget _buildUserNicknameWidget(String fullName) {
+    if (!_isEditingName) {
+      return InkWell(
+        onTap: () {
+          setState(() {
+            _isEditingName = !_isEditingName;
+            if (fullName != null) {
+              _controller.text = fullName;
+            }
+          });
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              (fullName?.isNotEmpty ?? false) ? fullName : 'Full Name',
+              style: TextStyle(
+                fontSize: 20.0,
+                color: (fullName?.isNotEmpty ?? false) ? Colors.black87 : Colors.black26,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(width: 5.0),
+            Icon(Icons.edit_outlined, color: Colors.black87, size: 20.0),
+          ],
+        ),
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: _controller,
+              style: TextStyle(color: Colors.black87),
+              decoration: InputDecoration(
+                hintText: 'Full Name',
+                hintStyle: TextStyle(
+                  color: Colors.black26,
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black87),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black87),
+                ),
+                disabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black87),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 5.0),
+          InkWell(
+            onTap: () {
+              setState(() {
+                _isEditingName = !_isEditingName;
+              });
+              context.read<UserBloc>().add(UpdateUserName(_controller.text));
+            },
+            child: Icon(Icons.save, color: Colors.black87, size: 20.0),
+          ),
+        ],
+      );
+    }
   }
 
   Widget _buildLogOutButton() {

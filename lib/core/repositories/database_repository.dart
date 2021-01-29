@@ -11,8 +11,8 @@ class UserRepository {
     return usersCollection.doc(user.id);
   }
 
-  Future<void> updateUser(User user) {
-    return usersCollection.doc(user.id).update(user.toJson());
+  Future<void> updateUserName(String name) {
+    return usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid).update({'fullName' : name});
   }
 
   Stream<User> getUser(String id) {
