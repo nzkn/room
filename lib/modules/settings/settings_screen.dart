@@ -47,8 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 } else {
                   final User user = snapshot.data;
                   return ListView(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30.0, horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
                     children: [
                       _buildProfileInfo(user),
                       const SizedBox(height: 20.0),
@@ -76,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildProfileImageWidget(),
+        _buildProfileImageWidget(user),
         const SizedBox(height: 20.0),
         Container(
           height: 40.0,
@@ -96,30 +95,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildProfileImageWidget() {
-    File _image;
-    final picker = ImagePicker();
+  Widget _buildProfileImageWidget(User user) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () async {
-        final pickedFile = await picker.getImage(source: ImageSource.camera);
-        setState(() {
-          if (pickedFile != null) {
-            _image = File(pickedFile.path);
-          } else {
-            print('No image selected.');
-          }
-        });
-      },
-      child: Container(
-        width: 100.0,
-        height: 100.0,
-        decoration: const BoxDecoration(
-          color: Colors.grey,
-          borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-        ),
-      ),
+      onTap: _onTakeImageTap,
+      child: user.image == null
+          ? Container(
+              width: 100.0,
+              height: 100.0,
+              decoration: const BoxDecoration(
+                color: Colors.grey,
+                borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+              ),
+            )
+          : Container(
+              width: 100.0,
+              height: 100.0,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                image: DecorationImage(
+                  image: NetworkImage(user.image),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
     );
+  }
+
+  void _onTakeImageTap() async {
+    File _image;
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        context.read<UserBloc>().add(UpdateUserAvatar(_image));
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 
   Widget _buildUserNicknameWidget(String fullName) {

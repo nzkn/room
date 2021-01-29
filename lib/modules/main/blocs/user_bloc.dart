@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room/core/repositories/database_repository.dart';
@@ -20,6 +23,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapUpdateUserEventToState(event.name);
     } else if (event is GetUserEvent) {
       yield* _mapGetUserEventToState();
+    } else if (event is UpdateUserAvatar) {
+      yield* _mapUpdateUserAvatarToState(event.file);
     }
   }
 
@@ -56,4 +61,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+  Stream<UserState> _mapUpdateUserAvatarToState(File image) async* {
+    try {
+      yield UserLoadingState();
+      String id = repository.getUserId();
+      await repository.updateUserAvatar(id, image);
+      Stream<User> user = repository.getUser(id);
+      yield UserLoadedState(user);
+    } on PlatformException {
+      yield UserErrorState('Error in UserBloc!');
+    }
+  }
 }

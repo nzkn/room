@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:room/models/user.dart';
 
 abstract class UserEvent {}
@@ -12,6 +14,12 @@ class UpdateUserName extends UserEvent {
   final String name;
 
   UpdateUserName(this.name);
+}
+
+class UpdateUserAvatar extends UserEvent {
+  final File file;
+
+  UpdateUserAvatar(this.file);
 }
 
 class GetUserEvent extends UserEvent {}

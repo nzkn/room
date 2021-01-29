@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:room/models/user.dart';
 
 class UserRepository {
@@ -13,6 +16,15 @@ class UserRepository {
 
   Future<void> updateUserName(String name) {
     return usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid).update({'fullName' : name});
+  }
+
+  Future<void> updateUserAvatar(String id, File image) async {
+    Reference reference = FirebaseStorage.instance.ref(id).child(id);
+    reference.putFile(image).then((snapshot) async {
+      snapshot.ref.getDownloadURL().then((value) {
+        usersCollection.doc(auth.FirebaseAuth.instance.currentUser.uid).update({'image' : value});
+      });
+    });
   }
 
   Stream<User> getUser(String id) {
