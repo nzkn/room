@@ -1,8 +1,12 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:room/core/repositories/firebase_auth_repository.dart';
 import 'package:room/core/router/router.gr.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/core/widgets/design_input_field.dart';
+import 'package:room/models/user.dart';
+import 'package:room/modules/main/blocs/user_bloc.dart';
+import 'package:room/modules/main/blocs/user_event.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -10,28 +14,45 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  bool _isEmailValidated;
+  bool _isPasswordValidated;
+  bool _isContinueEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _isEmailValidated = false;
+    _isPasswordValidated = false;
+    _isContinueEnabled = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20.0),
-            Spacer(),
-            _buildTitleWidget(),
-            const SizedBox(height: 25.0),
-            _buildInputFieldsWidget(),
-            Spacer(),
-            _buildNextButtonWidget(),
-            const SizedBox(height: 15.0),
-            _buildLogInWidget(),
-            const SizedBox(height: 20.0),
-          ],
+        child: Builder(
+          builder: (context) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20.0),
+                Spacer(),
+                _buildTitleWidget(),
+                const SizedBox(height: 25.0),
+                _buildInputFieldsWidget(),
+                Spacer(),
+                _buildNextButtonWidget(context),
+                const SizedBox(height: 15.0),
+                _buildLogInWidget(),
+                const SizedBox(height: 20.0),
+              ],
+            );
+          }
         ),
       ),
     );
@@ -56,19 +77,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
           DesignInputField(
             hint: 'Email',
             controller: _emailController,
+            onChanged: (email) => _onEmailUpdated(email),
           ),
           const SizedBox(height: 15.0),
           DesignInputField(
             hint: 'Password',
             controller: _passwordController,
             obscure: true,
+            onChanged: (pwd) => _onPasswordUpdated(pwd),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildNextButtonWidget() {
+  void _onEmailUpdated(String email) {
+    _isEmailValidated = EmailValidator.validate(_emailController.text);
+    _checkIfContinueEnabled();
+  }
+
+  void _onPasswordUpdated(String password) {
+    _isPasswordValidated = password.length > 7;
+    _checkIfContinueEnabled();
+  }
+
+  void _checkIfContinueEnabled() {
+    if (_isEmailValidated && _isPasswordValidated) {
+      setState(() {
+        _isContinueEnabled = true;
+      });
+    }
+  }
+
+  Widget _buildNextButtonWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
@@ -76,7 +117,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Expanded(
             child: DesignButton(
               title: 'Sign up',
-              onTap: _onSignUpTap,
+              onTap: () => _onSignUpTap(context),
+              enabled: _isContinueEnabled,
             ),
           ),
         ],
@@ -84,15 +126,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSignUpTap() async {
+  void _onSignUpTap(BuildContext context) async {
     final firebaseAuth = FirebaseAuthRepository();
     final email = _emailController.text;
     final password = _passwordController.text;
+    final id = await firebaseAuth.signUpWithEmail(email, password);
 
-    final uid = await firebaseAuth.signUpWithEmail(email, password);
-    if (uid == null) {
+    if (id == null) {
       _showLogInErrorSnackBar(context);
     } else {
+      final user = User.fromJson({'id': id});
+      UserBloc().add(CreateUserEvent(user));
       Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen, (route) => false);
     }
   }
