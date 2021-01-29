@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:room/app.dart';
 import 'package:room/core/app_data.dart';
 
+import 'core/locator/locator.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -12,6 +14,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   AppData appData = await AppData.getInstance();
+  setupLocator();
   runApp(App(appData));
 }
 

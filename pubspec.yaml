@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_bloc: ^6.1.1
+  flutter_bloc: ^6.0.5
   flutter_svg: ^0.19.1
   equatable: ^1.2.5
   firebase_core: ^0.7.0
@@ -28,6 +28,9 @@ dependencies:
   intl: ^0.16.1
   lottie: ^0.7.0+1
   google_sign_in: ^4.5.9
+  firebase_messaging: ^6.0.16
+  get_it: ^5.0.6
+  provider: ^4.3.3
 
 dev_dependencies:
   auto_route_generator: ^0.6.10

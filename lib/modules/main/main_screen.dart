@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:room/core/locator/locator.dart';
+import 'package:room/core/services/push_notification_service.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/modules/chat/chat_screen.dart';
+import 'package:room/modules/main/blocs/user_event.dart';
 import 'package:room/modules/settings/settings_screen.dart';
+import 'package:provider/provider.dart';
+import 'blocs/user_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -10,9 +15,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   TabController _tabController;
+  final PushNotificationService _pushNotificationService = locator<PushNotificationService>();
 
   @override
   void initState() {
+    context.read<UserBloc>().add(GetUserEvent());
+    _initPushNotifications();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {});
@@ -24,6 +32,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         backgroundColor: Colors.yellow,
         centerTitle: true,
         title: Row(
@@ -79,5 +88,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   void _onTabTap(int index) {
     _tabController.animateTo(index, duration: Duration(milliseconds: 400));
     setState(() {});
+  }
+
+  Future<void> _initPushNotifications() async {
+    await _pushNotificationService.initialise();
   }
 }

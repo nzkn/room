@@ -8,10 +8,10 @@ class CreateUserEvent extends UserEvent {
   CreateUserEvent(this.user);
 }
 
-class UpdateUserEvent extends UserEvent {
-  final User user;
+class UpdateUserName extends UserEvent {
+  final String name;
 
-  UpdateUserEvent(this.user);
+  UpdateUserName(this.name);
 }
 
 class GetUserEvent extends UserEvent {}

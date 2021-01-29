@@ -13,6 +13,8 @@ import 'package:room/modules/main/blocs/user_event.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/models/user.dart';
 import 'package:room/modules/auth/widgets/language_selection_widget.dart';
+import 'package:room/modules/main/blocs/user_bloc.dart';
+import 'package:room/modules/main/blocs/user_event.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -135,9 +137,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final firebaseAuth = FirebaseAuthRepository();
     final email = _emailController.text;
     final password = _passwordController.text;
-    final id = await firebaseAuth.signUpWithEmail(email, password);
-
-
     final uid = await firebaseAuth.signUpWithEmail(email, password);
 
     if (uid == null) {
