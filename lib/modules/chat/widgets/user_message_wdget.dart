@@ -30,17 +30,21 @@ class UserMessageWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                if (message?.nickname != null && (message?.nickname?.isNotEmpty ?? false))
+                if (message?.nickname != null && (message?.nickname?.isNotEmpty ?? false))...[
                   Row(
                     children: [
                       Text(
                         message.nickname,
                         style: TextStyle(
-                          color: Colors.black87,
+                          color: Colors.blueAccent.withOpacity(0.6),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 3.0),
+                ],
                 Row(
                   children: [
                     Expanded(

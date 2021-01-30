@@ -6,6 +6,7 @@ class RouteNames {
   static const String resetPasswordRoute = "/reset-password";
   static const String mainRoute = "/main";
   static const String languageSettingsRoute = "/language-settings";
+  static const String themeSettingsRoute = "/theme-settings";
   static const String signUpMethodRoute = "/sign-up-method";
   static const String languageRoute = "/language";
 

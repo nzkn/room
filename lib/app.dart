@@ -14,6 +14,7 @@ import 'package:room/modules/main/blocs/user_bloc.dart';
 import 'package:room/modules/main/main_screen.dart';
 import 'package:room/modules/onboarding/onboarding_screen.dart';
 import 'package:room/modules/auth/language_screen.dart';
+import 'package:room/modules/settings/theme_screen.dart';
 
 import 'core/app_data.dart';
 import 'modules/settings/language_screen.dart';
@@ -95,6 +96,9 @@ class App extends StatelessWidget {
         break;
       case RouteNames.languageSettingsRoute:
         page = LanguageSettingScreen();
+        break;
+      case RouteNames.themeSettingsRoute:
+        page = ThemeScreen();
         break;
     }
 

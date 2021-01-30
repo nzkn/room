@@ -54,6 +54,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       UiUtils.buildDivider(),
                       _buildLanguageButton(),
                       UiUtils.buildDivider(),
+                      _buildThemeButton(),
+                      UiUtils.buildDivider(),
                       _buildLogOutButton(),
                       UiUtils.buildDivider(),
                     ],
@@ -139,14 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildUserNicknameWidget(String fullName) {
     if (!_isEditingName) {
       return InkWell(
-        onTap: () {
-          setState(() {
-            _isEditingName = !_isEditingName;
-            if (fullName != null) {
-              _controller.text = fullName;
-            }
-          });
-        },
+        onTap: () => _onNicknameTap(fullName),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -201,6 +196,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       );
     }
+  }
+
+  void _onNicknameTap(String fullName) {
+    setState(() {
+      _isEditingName = !_isEditingName;
+      if (fullName != null) {
+        _controller.text = fullName;
+      }
+    });
+  }
+
+  Widget _buildThemeButton() {
+    return _buildButton(_onThemeTap, Icons.color_lens, 'main_sc_background');
+  }
+
+  void _onThemeTap() {
+    Navigator.pushNamed(context, RouteNames.themeSettingsRoute);
   }
 
   Widget _buildLogOutButton() {

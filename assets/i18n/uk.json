@@ -40,9 +40,14 @@
   "main_sc_chat" : "Чат",
   "main_sc_profile" : "Профіль",
   "main_sc_language" : "Мова",
+  "main_sc_background" : "Тема",
   "main_sc_log_out" : "Вийти",
 
   "language_set_sc_language" : "Мова",
   "language_set_sc_ukrainian" : "Українська",
-  "language_set_sc_english" : "Англійська"
+  "language_set_sc_english" : "Англійська",
+
+  "theme_set_sc_english" : "Тема"
+
+
 }

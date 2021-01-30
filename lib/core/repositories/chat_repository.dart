@@ -11,7 +11,11 @@ class ChatRepository {
   }
 
   Stream<List<Message>> getMessages() {
-    final messages = FirebaseFirestore.instance.collection('chat').snapshots().map((data) {
+    final messages = FirebaseFirestore.instance
+        .collection('chat')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((data) {
       return data.docs.map((doc) {
         return Message.fromJson(doc.data());
       }).toList();
