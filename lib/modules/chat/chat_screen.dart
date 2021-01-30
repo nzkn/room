@@ -134,7 +134,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Row(
           children: [
             GestureDetector(
-              onTap: _onImagePickTap,
+              onTap: () => _onImagePickTap(user),
               child: Icon(
                 Icons.image_outlined,
                 color: Colors.black87,
@@ -201,21 +201,27 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_controller.text.trim().isNotEmpty) {
       FocusScope.of(context).unfocus();
       context.read<ChatBloc>().add(
-            PostMessageEvent(
-              Message(_controller.text, user.id, user.fullName, DateTime.now().toString()),
-            ),
-          );
+        PostMessageEvent(
+          Message(user.id, user.fullName, DateTime.now().toString(), message: _controller.text),
+        ),
+      );
       _controller.clear();
     }
   }
 
-  void _onImagePickTap() async {
+  void _onImagePickTap(User user) async {
     File _image;
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        context.read<ChatBloc>().add(
+          PostImageMessageEvent(
+            Message(user.id, user.fullName, DateTime.now().toString()),
+            _image,
+          ),
+        );
       } else {
         print('No image selected.');
       }

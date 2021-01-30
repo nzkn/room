@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:room/models/message.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -24,7 +27,14 @@ class ChatRepository {
     return ValueConnectableStream(messages).autoConnect();
   }
 
-
-
+  // Future<void> uploadMessageImage(String id, File image) {
+  //   Reference reference = FirebaseStorage.instance.ref(id).child(id);
+  //   reference.putFile(image).then((snapshot) async {
+  //     snapshot.ref.getDownloadURL().then((value) {
+  //       chatCollection.doc(auth.FirebaseAuth.instance.currentUser.uid)
+  //           .update({'image': value});
+  //     });
+  //   });
+  // }
 
 }

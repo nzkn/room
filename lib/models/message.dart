@@ -3,14 +3,16 @@ class Message {
   final String userId;
   final String nickname;
   final String createdAt;
+  final String image;
 
-  Message(this.message, this.userId, this.nickname, this.createdAt);
+  Message(this.userId, this.nickname, this.createdAt, {this.message, this.image});
 
   Message.fromJson(Map<String, dynamic> m)
       : message = m['message'],
         userId = m['userId'],
         nickname = m['nickname'],
-        createdAt = m['createdAt'];
+        createdAt = m['createdAt'],
+        image = m['image'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -18,6 +20,7 @@ class Message {
       'userId' : userId,
       'nickname' : nickname,
       'createdAt' : createdAt,
+      'image' : image,
     };
   }
 }

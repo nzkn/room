@@ -17,6 +17,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield* _mapGetChatMessagesEventToState();
     } else if (event is PostMessageEvent) {
       yield* _mapPostMessageEventToState(event.message);
+    } else if (event is PostImageMessageEvent) {
+      yield* _mapPostMessageEventToState(event.message);
     }
   }
 
@@ -33,6 +35,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Stream<ChatState> _mapPostMessageEventToState(Message message) async* {
     try {
       await repository.postMessage(message);
+    } on PlatformException {
+      yield ChatErrorState('Error in ChatBloc!');
+    }
+  }
+
+  Stream<ChatState> _mapPostImageMessageEventToState() async* {
+    try {
+
     } on PlatformException {
       yield ChatErrorState('Error in ChatBloc!');
     }
