@@ -1,13 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:room/core/repositories/user_repository.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/utils/ui_utils.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/localization/app_localizations.dart';
+import 'package:room/models/user.dart';
 import 'package:room/resources/colors_res.dart';
 import 'package:room/resources/images.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:dio/dio.dart' as dio;
 
 class SignUpMethodScreen extends StatefulWidget {
   @override
@@ -83,24 +88,42 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
       color: ColorsRes.blue,
       textColor: ColorsRes.white,
       onTap: _onContinueWithFacebookTap,
-      leading: Container(height: 25.0, width: 25.0, child: Image.asset(Images.icFacebook)),
+      leading: Container(
+          height: 25.0,
+          width: 25.0,
+          child: Image.asset(Images.icFacebook),
+      ),
     );
   }
 
   void _onContinueWithFacebookTap() async {
-    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+    final FacebookLoginResult loginResult = await facebookSignIn.logIn(['email']);
 
-    if (result.status == FacebookLoginStatus.loggedIn) {
-      final accessToken = result.accessToken.token;
-      final credential = FacebookAuthProvider.credential(accessToken);
-      await FirebaseAuth.instance.signInWithCredential(credential);
+    if (loginResult.status == FacebookLoginStatus.loggedIn) {
+      final accessToken = loginResult.accessToken.token;
+      final userName = await _getUserName(accessToken);
+      final credential = auth.FacebookAuthProvider.credential(accessToken);
+      await auth.FirebaseAuth.instance.signInWithCredential(credential);
+      _createUser(userName);
       _navigateToMainScreen();
-    } else if (result.status == FacebookLoginStatus.cancelledByUser) {
+    } else if (loginResult.status == FacebookLoginStatus.cancelledByUser) {
       _showMessage(context, 'Login cancelled by the user.');
     } else {
       _showMessage(context, 'Authentication failed');
     }
+  }
 
+  Future<String> _getUserName(String accessToken) async {
+    try {
+      final dio = Dio();
+      final response = await dio.get('https://graph.facebook.com/v2.12/me?fields=name&access_token=$accessToken');
+      return response.data['name'];
+    } on DioError catch (e) {
+      print(e);
+    } catch (e, stackTrace) {
+      print(e);
+      print(stackTrace);
+    }
   }
 
   Widget _buildGoogleButton() {
@@ -109,26 +132,41 @@ class _SignUpMethodScreenState extends State<SignUpMethodScreen> {
       color: ColorsRes.grey,
       textColor: ColorsRes.darkBlue,
       onTap: _onContinueWithGoogleTap,
-      leading: Container(height: 25.0, width: 25.0, child: Image.asset(Images.icGoogle)),
+      leading: Container(
+          height: 25.0,
+          width: 25.0,
+          child: Image.asset(Images.icGoogle),
+      ),
     );
   }
 
   void _onContinueWithGoogleTap() async {
     try {
-      GoogleSignInAccount account = await GoogleSignIn().signIn();
-      GoogleSignInAuthentication authentication = await account.authentication;
-      OAuthCredential credential = GoogleAuthProvider.credential(
+      final googleAccount = await GoogleSignIn().signIn();
+      final authentication = await googleAccount.authentication;
+      final oAuthCredential = auth.GoogleAuthProvider.credential(
         accessToken: authentication.accessToken,
         idToken: authentication.idToken);
-      UserCredential credentials = await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredentials = await auth.FirebaseAuth.instance.signInWithCredential(oAuthCredential);
 
-      if (credentials?.user?.uid?.isNotEmpty ?? false) {
+      if (userCredentials?.user?.uid?.isNotEmpty ?? false) {
+        final userName = userCredentials?.user?.displayName;
+        await _createUser(userName);
         _navigateToMainScreen();
       }
-
-    } on FirebaseAuthException catch (err) {
+    } on auth.FirebaseAuthException catch (err) {
       print(err);
     }
+  }
+
+  Future<DocumentReference> _createUser(String userName) async {
+    final repository = UserRepository();
+    final user = auth.FirebaseAuth.instance.currentUser;
+
+    final id = user.uid;
+    return await repository.createUser(
+      User(id, userName, user.email),
+    );
   }
 
   void _navigateToMainScreen() {

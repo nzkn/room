@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:room/localization/app_localizations.dart';
 import 'package:room/models/message.dart';
 import 'package:room/models/user.dart';
 import 'package:room/modules/chat/widgets/my_message_widget.dart';
@@ -48,39 +49,49 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildMessagesList() {
-    return BlocBuilder<ChatBloc, ChatState>(
-      builder: (context, state) {
-        if (state is MessagesLoadedState) {
-          return StreamBuilder(
-            stream: state.messages,
-            builder: (context, snapshot) {
-              if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return ListView.separated(
-                  itemCount: snapshot.data.length,
-                  reverse: true,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return _buildMessageWidget(snapshot.data[index]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 12.0);
-                  },
-                  padding: const EdgeInsets.all(12.0),
-                );
-              }
-            },
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+    return GestureDetector(
+      onTap: () => _onTapOutsideKeyboard(),
+      child: BlocBuilder<ChatBloc, ChatState>(
+        builder: (context, state) {
+          if (state is MessagesLoadedState) {
+            return StreamBuilder(
+              stream: state.messages,
+              builder: (context, snapshot) {
+                if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return ListView.separated(
+                    itemCount: snapshot.data.length,
+                    reverse: true,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return _buildMessageWidget(snapshot.data[index]);
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 12.0);
+                    },
+                    padding: const EdgeInsets.all(12.0),
+                  );
+                }
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
+  }
+
+  void _onTapOutsideKeyboard() {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      currentFocus.focusedChild.unfocus();
+    }
   }
 
   Widget _buildMessageWidget(Message message) {
@@ -99,12 +110,10 @@ class _ChatScreenState extends State<ChatScreen> {
             stream: state.user,
             builder: (context, snapshot) {
               if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return _buildChatInputWidget(enabled: false);
               } else {
                 final User user = snapshot.data;
-                return _buildChatInputWidget(user);
+                return _buildChatInputWidget(user: user);
               }
             },
           );
@@ -117,7 +126,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  _buildChatInputWidget(User user) {
+  _buildChatInputWidget({User user, bool enabled = true}) {
     return Container(
       height: 80.0,
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
@@ -133,14 +142,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Center(
         child: Row(
           children: [
-            GestureDetector(
-              onTap: () => _onImagePickTap(user),
-              child: Icon(
-                Icons.image_outlined,
-                color: Colors.black87,
-                size: 28.0,
-              ),
-            ),
+            _buildImageIconWidget(user, enabled),
             const SizedBox(width: 15.0),
             Expanded(
               child: Theme(
@@ -148,11 +150,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   textSelectionColor: Colors.yellow.withOpacity(0.25),
                   accentColor: Colors.yellow.withOpacity(0.25),
                   primaryColor: Colors.yellow,
-                  textSelectionHandleColor: Colors.yellow,
                 ),
                 child: TextFormField(
+                  enabled: enabled,
                   controller: _controller,
-                  style: TextStyle(color: Colors.black87),
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontFamily: 'Montserrat',
+                  ),
                   cursorColor: ColorsRes.primary2,
                   minLines: 1,
                   maxLines: 4,
@@ -160,8 +165,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.8),
-                    hintText: 'Type your message here...',
+                    hintText: enabled
+                      ? getLocalized(context, 'chat_type_message')
+                      : getLocalized(context, 'chat_initialization'),
                     hintStyle: TextStyle(
+                      fontFamily: 'Montserrat',
                       color: Colors.grey.withOpacity(0.7),
                     ),
                     border: InputBorder.none,
@@ -175,23 +183,42 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             const SizedBox(width: 15.0),
-            GestureDetector(
-              onTap: () => _onMessageSendTap(user),
-              child: Container(
-                height: 35.0,
-                width: 35.0,
-                decoration: BoxDecoration(
-                  color: ColorsRes.primary2,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_forward,
-                  color: Colors.black87,
-                  size: 19.0,
-                ),
-              ),
-            ),
+            _buildSendMessageWidget(user, enabled),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageIconWidget(User user, bool enabled) {
+    return GestureDetector(
+      onTap: () =>  enabled
+          ? _onImagePickTap(user)
+          : {},
+      child: Icon(
+        Icons.image_outlined,
+        color: Colors.black87,
+        size: 28.0,
+      ),
+    );
+  }
+
+  Widget _buildSendMessageWidget(User user, bool enabled) {
+    return GestureDetector(
+      onTap: () => enabled
+          ? _onMessageSendTap(user)
+          : {},
+      child: Container(
+        height: 35.0,
+        width: 35.0,
+        decoration: BoxDecoration(
+          color: ColorsRes.primary2,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          Icons.arrow_forward,
+          color: Colors.black87,
+          size: 19.0,
         ),
       ),
     );
@@ -199,12 +226,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _onMessageSendTap(User user) {
     if (_controller.text.trim().isNotEmpty) {
-      FocusScope.of(context).unfocus();
       context.read<ChatBloc>().add(
-        PostMessageEvent(
-          Message(user.id, user.fullName, DateTime.now().toString(), message: _controller.text),
-        ),
-      );
+            PostMessageEvent(
+              Message(user.id, user.fullName, DateTime.now().toString(), message: _controller.text),
+            ),
+          );
       _controller.clear();
     }
   }
@@ -217,14 +243,20 @@ class _ChatScreenState extends State<ChatScreen> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
         context.read<ChatBloc>().add(
-          PostImageMessageEvent(
-            Message(user.id, user.fullName, DateTime.now().toString()),
-            _image,
-          ),
-        );
+              PostImageMessageEvent(
+                Message(user.id, user.fullName, DateTime.now().toString()),
+                _image,
+              ),
+            );
       } else {
         print('No image selected.');
       }
     });
   }
+
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
 }

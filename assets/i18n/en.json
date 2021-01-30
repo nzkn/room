@@ -50,5 +50,9 @@
   "language_set_sc_ukrainian" : "Ukrainian",
   "language_set_sc_english" : "English",
 
-  "theme_set_sc_english" : "Theme"
+  "theme_set_sc_english" : "Theme",
+
+  "chat_type_message": "Type your message",
+  "chat_initialization": "Chat initialization..."
+
 }
