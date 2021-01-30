@@ -9,6 +9,7 @@ class RouteNames {
   static const String themeSettingsRoute = "/theme-settings";
   static const String signUpMethodRoute = "/sign-up-method";
   static const String languageRoute = "/language";
+  static const String profileRoute = "/profile-route";
 
   RouteNames._();
 }

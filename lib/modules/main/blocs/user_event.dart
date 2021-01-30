@@ -24,3 +24,10 @@ class UpdateUserAvatar extends UserEvent {
 
 class GetUserEvent extends UserEvent {}
 
+class GetOtherUserEvent extends UserEvent {
+  final String userId;
+
+  GetOtherUserEvent(this.userId);
+
+}
+

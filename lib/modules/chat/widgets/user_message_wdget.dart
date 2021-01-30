@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:room/core/router/route_names.dart';
 import 'package:room/models/message.dart';
 
 class UserMessageWidget extends StatelessWidget {
@@ -32,12 +33,15 @@ class UserMessageWidget extends StatelessWidget {
     } else {
       return Row(
         children: [
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(15.0),
+          GestureDetector(
+            onTap: () => _onMessageTap(context, message),
+            child: Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(15.0),
+              ),
             ),
           ),
           const SizedBox(width: 10.0),
@@ -129,6 +133,11 @@ class UserMessageWidget extends StatelessWidget {
           );
         }
     );
+  }
+
+
+  void _onMessageTap(BuildContext context, Message message) {
+    Navigator.pushNamed(context, RouteNames.profileRoute);
   }
 
 }

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/localization/app_localizations.dart';
 import 'package:room/localization/locale_builder.dart';
+import 'package:room/modules/auth/language_screen.dart';
 import 'package:room/modules/auth/log_in_screen.dart';
 import 'package:room/modules/auth/reset_password_screen.dart';
 import 'package:room/modules/auth/sign_up_method_screen.dart';
@@ -13,8 +14,8 @@ import 'package:room/modules/main/blocs/chat_bloc.dart';
 import 'package:room/modules/main/blocs/user_bloc.dart';
 import 'package:room/modules/main/main_screen.dart';
 import 'package:room/modules/onboarding/onboarding_screen.dart';
-import 'package:room/modules/auth/language_screen.dart';
 import 'package:room/modules/settings/theme_screen.dart';
+import 'package:room/modules/user_profile/user_profile_screen.dart';
 
 import 'core/app_data.dart';
 import 'modules/settings/language_screen.dart';
@@ -99,6 +100,12 @@ class App extends StatelessWidget {
         break;
       case RouteNames.themeSettingsRoute:
         page = ThemeScreen();
+        break;
+      case RouteNames.profileRoute:
+        page = BlocProvider(
+          create: (_) => UserBloc(),
+          child: UserProfileScreen(settings.arguments),
+        );
         break;
     }
 

@@ -24,6 +24,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapGetUserEventToState();
     } else if (event is UpdateUserAvatar) {
       yield* _mapUpdateUserAvatarToState(event.file);
+    } else if (event is GetOtherUserEvent) {
+      yield* _mapGetOtherUserEventToState(event.userId);
+    }
+  }
+
+  Stream<UserState> _mapGetOtherUserEventToState(String userId) async* {
+    try {
+      Stream<User> user = repository.getUser(userId);
+      yield UserLoadedState(user);
+    } on PlatformException {
+      yield UserErrorState('Error in UserBloc!');
     }
   }
 
