@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:room/core/repositories/chat_repository.dart';
@@ -18,7 +19,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     } else if (event is PostMessageEvent) {
       yield* _mapPostMessageEventToState(event.message);
     } else if (event is PostImageMessageEvent) {
-      yield* _mapPostMessageEventToState(event.message);
+      yield* _mapPostImageMessageEventToState(event.file, event.message);
     }
   }
 
@@ -40,9 +41,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  Stream<ChatState> _mapPostImageMessageEventToState() async* {
+  Stream<ChatState> _mapPostImageMessageEventToState(File image, Message message) async* {
     try {
-
+      await repository.uploadMessageImage(image, message);
     } on PlatformException {
       yield ChatErrorState('Error in ChatBloc!');
     }
