@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:room/core/router/route_names.dart';
 import 'package:room/core/widgets/design_button.dart';
 import 'package:room/localization/app_localizations.dart';
@@ -15,17 +16,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     OnboardingSlide(
       titleKey: 'onboarding_sc_title_1',
       textKey: 'onboarding_sc_text_1',
-      image: '',
+      image: 'assets/json/message.json',
     ),
     OnboardingSlide(
       titleKey: 'onboarding_sc_title_2',
       textKey: 'onboarding_sc_text_2',
-      image: '',
+      image: 'assets/json/images.json',
     ),
     OnboardingSlide(
       titleKey: 'onboarding_sc_title_3',
       textKey: 'onboarding_sc_text_3',
-      image: '',
+      image: 'assets/json/stars.json',
     ),
   ];
   final PageController _pageController = PageController();
@@ -74,13 +75,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           flex: 4,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.0),
-            child: Center(
-              child: Container(
-                height: 50,
-                width: 50,
-                color: Colors.red,
-              ),
-            ),
+            child: Lottie.asset(slide.image),
           ),
         ),
         const SizedBox(height: 25.0),
