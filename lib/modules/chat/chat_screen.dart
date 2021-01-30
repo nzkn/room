@@ -12,6 +12,7 @@ import 'package:room/modules/main/blocs/blocs.dart';
 import 'package:room/modules/main/blocs/chat_bloc.dart';
 import 'package:room/modules/main/blocs/chat_event.dart';
 import 'package:room/modules/main/blocs/chat_state.dart';
+import 'package:room/resources/colors_res.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -97,53 +98,13 @@ class _ChatScreenState extends State<ChatScreen> {
           return StreamBuilder(
             stream: state.user,
             builder: (context, snapshot) {
-              if (snapshot.hasError ||
-                  snapshot.connectionState == ConnectionState.waiting) {
+              if (snapshot.hasError || snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
                 final User user = snapshot.data;
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-                  height: 60.0,
-                  color: Colors.grey.withOpacity(0.4),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _controller,
-                            style: TextStyle(color: Colors.black87),
-                            decoration: InputDecoration(
-                              hintText: 'Type your message here...',
-                              hintStyle: TextStyle(
-                                color: Colors.grey.withOpacity(0.7),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.8),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black26),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15.0),
-                        GestureDetector(
-                          onTap: () => _onMessageSendTap(user),
-                          child: Icon(Icons.send),
-                        ),
-                        const SizedBox(width: 15.0),
-                        GestureDetector(
-                          onTap: _onImagePickTap,
-                          child: Icon(Icons.image),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                return _buildChatInputWidget(user);
               }
             },
           );
@@ -156,14 +117,94 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  _buildChatInputWidget(User user) {
+    return Container(
+      height: 80.0,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: ColorsRes.white,
+        border: Border(
+          top: BorderSide(
+            width: 1.5,
+            color: Colors.black.withOpacity(0.08),
+          ),
+        ),
+      ),
+      child: Center(
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: _onImagePickTap,
+              child: Icon(
+                Icons.image_outlined,
+                color: Colors.black87,
+                size: 28.0,
+              ),
+            ),
+            const SizedBox(width: 15.0),
+            Expanded(
+              child: Theme(
+                data: ThemeData(
+                  textSelectionColor: Colors.yellow.withOpacity(0.25),
+                  accentColor: Colors.yellow.withOpacity(0.25),
+                  primaryColor: Colors.yellow,
+                  textSelectionHandleColor: Colors.yellow,
+                ),
+                child: TextFormField(
+                  controller: _controller,
+                  style: TextStyle(color: Colors.black87),
+                  cursorColor: ColorsRes.primary2,
+                  minLines: 1,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.8),
+                    hintText: 'Type your message here...',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.withOpacity(0.7),
+                    ),
+                    border: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 15.0),
+            GestureDetector(
+              onTap: () => _onMessageSendTap(user),
+              child: Container(
+                height: 35.0,
+                width: 35.0,
+                decoration: BoxDecoration(
+                  color: ColorsRes.primary2,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.black87,
+                  size: 19.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _onMessageSendTap(User user) {
     if (_controller.text.trim().isNotEmpty) {
       FocusScope.of(context).unfocus();
       context.read<ChatBloc>().add(
-        PostMessageEvent(
-          Message(_controller.text, user.id, user.fullName, DateTime.now().toString()),
-        ),
-      );
+            PostMessageEvent(
+              Message(_controller.text, user.id, user.fullName, DateTime.now().toString()),
+            ),
+          );
       _controller.clear();
     }
   }
