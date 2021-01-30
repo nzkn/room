@@ -16,18 +16,32 @@ class UserMessageWidget extends StatelessWidget {
     if (message.image != null) {
       return GestureDetector(
         onTap: () => _onImageTap(context, message.image),
-        child: Padding(
-          padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.4),
-          child: Container(
-            height: 150.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14.0),
-              image: DecorationImage(
-                image: NetworkImage(message.image),
-                fit: BoxFit.cover,
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: () => _onMessageTap(context, message),
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
               ),
             ),
-          ),
+            const SizedBox(width: 10.0),
+            Container(
+              height: 150.0,
+              width: MediaQuery.of(context).size.width * 0.6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14.0),
+                image: DecorationImage(
+                  image: NetworkImage(message.image),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
         ),
       );
     } else {
@@ -137,7 +151,7 @@ class UserMessageWidget extends StatelessWidget {
 
 
   void _onMessageTap(BuildContext context, Message message) {
-    Navigator.pushNamed(context, RouteNames.profileRoute);
+    Navigator.pushNamed(context, RouteNames.profileRoute, arguments: message.userId);
   }
 
 }

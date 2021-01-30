@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:room/core/router/route_names.dart';
 import 'package:room/models/message.dart';
 
 class MyMessageWidget extends StatelessWidget {
@@ -29,54 +28,51 @@ class MyMessageWidget extends StatelessWidget {
         ),
       );
     } else {
-      return GestureDetector(
-        onTap: () {},
-        child: Row(
-          children: [
-            const SizedBox(width: 30.0),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.4),
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                ),
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            message?.message ?? '',
-                            style: TextStyle(
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          message?.createdAt != null
-                              ? format
-                                  .format(DateTime.parse(message.createdAt))
-                                  .toString()
-                              : '',
+      return Row(
+        children: [
+          const SizedBox(width: 30.0),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.4),
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          message?.message ?? '',
                           style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 12.0,
+                            color: Colors.black87,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        message?.createdAt != null
+                            ? format
+                                .format(DateTime.parse(message.createdAt))
+                                .toString()
+                            : '',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
     }
   }

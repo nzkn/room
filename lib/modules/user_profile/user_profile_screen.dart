@@ -26,6 +26,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(color: Colors.black),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+      ),
       backgroundColor: ColorsRes.white,
       body: SafeArea(
         child: BlocBuilder<UserBloc, UserState>(
@@ -45,7 +50,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       children: [
                         _buildProfileInfo(user),
                         const SizedBox(height: 20.0),
-                        UiUtils.buildDivider(),
                       ],
                     );
                   }
@@ -114,15 +118,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          (fullName?.isNotEmpty ?? false) ? fullName : 'Full Name',
+          (fullName?.isNotEmpty ?? false) ? fullName : 'No name',
           style: TextStyle(
             fontSize: 20.0,
             color: (fullName?.isNotEmpty ?? false) ? Colors.black87 : Colors.black26,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(width: 5.0),
-        Icon(Icons.edit_outlined, color: Colors.black87, size: 20.0),
       ],
     );
   }

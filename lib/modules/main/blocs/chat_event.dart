@@ -18,3 +18,9 @@ class PostImageMessageEvent extends ChatEvent {
 
   PostImageMessageEvent(this.message, this.file);
 }
+
+class DeleteMessageEvent extends ChatEvent {
+  final String messageId;
+
+  DeleteMessageEvent(this.messageId);
+}
