@@ -88,6 +88,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
         const SizedBox(height: 15.0),
