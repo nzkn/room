@@ -222,7 +222,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _onLogOutTap() async {
     final _authRepository = FirebaseAuthRepository();
     await _authRepository.signOut();
-    Navigator.pushReplacementNamed(context, RouteNames.logInRoute);
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.languageRoute, (route) => false);
   }
 
   Widget _buildLanguageButton() {

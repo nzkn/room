@@ -55,15 +55,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
 
   Widget _buildThemeItemWidget() {
     return GridView.builder(
-      itemCount: 3,
+      itemCount: 6,
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(horizontal: 12.0),
       physics: BouncingScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 2,
         crossAxisSpacing: 12.0,
         mainAxisSpacing: 12.0,
-        childAspectRatio: 1,
+        childAspectRatio: 2.2,
       ),
       itemBuilder: (context, index) {
         return _buildThemeWidget(index.toString());

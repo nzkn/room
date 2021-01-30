@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Spacer(),
                   _buildNextButtonWidget(context),
                   const SizedBox(height: 15.0),
-                  _buildLogInWidget(),
+                  _buildSwitchToLogInWidget(),
                   const SizedBox(height: 20.0),
                 ],
               ),
@@ -157,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  Widget _buildLogInWidget() {
+  Widget _buildSwitchToLogInWidget() {
     return Center(
       child: GestureDetector(
         onTap: _onSignInTap,

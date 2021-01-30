@@ -47,7 +47,9 @@
   "language_set_sc_ukrainian" : "Українська",
   "language_set_sc_english" : "Англійська",
 
-  "theme_set_sc_english" : "Тема"
+  "theme_set_sc_english" : "Тема",
 
+  "chat_type_message": "Введіть повідомлення",
+  "chat_initialization": "Інаціалізація чату..."
 
 }
